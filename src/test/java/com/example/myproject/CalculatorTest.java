@@ -27,7 +27,8 @@ class CalculatorTest {
     @Test
     public void testDivide() {
         Calculator calc = new Calculator();
-        assertEquals(2.0, calc.divide(4, 2));
+        // assertEquals(2.0, calc.divide(4, 2));
+        assertEquals(2.0, calc.divide(0, 0));
     }
 
     @Test
