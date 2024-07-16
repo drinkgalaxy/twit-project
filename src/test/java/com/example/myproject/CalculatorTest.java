@@ -30,7 +30,6 @@ class CalculatorTest {
         // assertEquals(2.0, calc.divide(4, 2));
         // assertEquals(2.0, calc.divide(0, 0));
         assertEquals(2.0, calc.divide(1, 1));
-
     }
 
     @Test
