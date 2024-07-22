@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../static/fragment/nav.css">
+    <title>Title</title>
+</head>
+<body>
+<header class="main-header" th:fragment="top">
+    <img class="logo" src="../../static/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <div class="header-contents">
+        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
+
+        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
+        <div class="logout-button">로그아웃</div>
+<!--        <div>회원가입</div>-->
+<!--        <div>로그인</div>-->
+    </div>
+</header>
+</body>
+</html>

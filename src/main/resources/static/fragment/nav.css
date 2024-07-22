@@ -1,0 +1,16 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.header-contents {
+    display: flex;
+    justify-content: center;
+    margin-left: 1000px;
+    gap: 20px;
+}
+
+.move-button {
+    cursor: pointer;
+}

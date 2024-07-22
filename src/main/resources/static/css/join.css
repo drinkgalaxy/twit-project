@@ -1,0 +1,93 @@
+.contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.box {
+    width: 636px;
+    height: 660px;
+    background: none;
+    border: 3px solid #7BD3EA;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.input-id {
+    width: 400px;
+    height: 48px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border: 2px solid #D9D9D9;
+    border-radius: 6px;
+}
+
+.input-password {
+    width: 400px;
+    height: 48px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border: 2px solid #D9D9D9;
+    border-radius: 6px;
+}
+
+.input-nickname {
+    width: 400px;
+    height: 48px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border: 2px solid #D9D9D9;
+    border-radius: 6px;
+}
+
+.id {
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 100px;
+}
+
+.password {
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 100px;
+}
+
+.nickname {
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 120px;
+}
+
+.div {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-left: 40px;
+}
+
+.check {
+    background-color: #F6D6D6;
+    width: 91px;
+    height: 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.join-button {
+    display: block;
+    background-color: #F6F7C4;
+    width: 127px;
+    height: 49px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 450px;
+    margin-top: 40px;
+}
