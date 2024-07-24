@@ -2,9 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/fragment/nav.css">
+    <link rel="stylesheet" href="../static/css/my-page.css">
     <title>내 정보 페이지</title>
 </head>
-<body>
+
+<header class="main-header" th:fragment="top">
+    <img class="logo" src="../static/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <div class="header-contents">
+        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
+
+        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
+        <div class="logout-button">로그아웃</div>
+        <!--        <div>회원가입</div>-->
+        <!--        <div>로그인</div>-->
+    </div>
+</header>
+
+<body class="body">
+    <div class="box">
+        <div class="hello-text">000님 안녕하세요!</div>
+        <div class="user-icon-data">
+            <img class="user-icon" src="../static/image/mypage-user-icon.png" alt="마이페이지 유저 아이콘">
+
+        </div>
+    </div>
+
 
 </body>
 </html>
