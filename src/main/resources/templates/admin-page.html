@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/fragment/nav.css">
+    <link rel="stylesheet" href="../static/css/admin-page.css">
     <title>관리자 페이지</title>
 </head>
-<body>
+
+<header class="main-header" th:fragment="top">
+    <img class="logo" src="../static/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <div class="header-contents">
+        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
+
+        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
+        <div class="logout-button">로그아웃</div>
+        <!--        <div>회원가입</div>-->
+        <!--        <div>로그인</div>-->
+    </div>
+</header>
+
+<body class="body">
+    <p class="report-list">신고 유저 목록</p>
+    <div class="report-and-accept-reject-button">
+        <div class="report-box">
+            <button class="report-move-button">글 이동</button>
+            <div class="report-text">신고할 유저: 닉네임</div>
+            <div class="report-reason">신고 사유: 포스트잇만 받기 위해서 의미없는 . 댓글을 남겼습니다.</div>
+        </div>
+        <div class="buttons">
+            <button class="report-accept">신고 수락</button>
+            <button class="report-reject">신고 거절</button>
+        </div>
+    </div>
+    <div class="report-and-accept-reject-button">
+        <div class="report-box">
+            <button class="report-move-button">글 이동</button>
+            <div class="report-text">신고할 유저: 닉네임222</div>
+            <div class="report-reason">신고 사유: 욕설이 섞인 포스트잇을 남겼습니다.</div>
+        </div>
+        <div class="buttons">
+            <button class="report-accept">신고 수락</button>
+            <button class="report-reject">신고 거절</button>
+        </div>
+    </div>
+
 
 </body>
 </html>

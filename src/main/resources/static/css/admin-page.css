@@ -1,0 +1,74 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.report-list {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.report-box {
+    width: 963px;
+    height: 121px;
+    background: #FFFFFF;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.report-move-button {
+    background-color: #7BD3EA;
+    width: 111px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 800px;
+}
+
+.report-text {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: -30px;
+    margin-right: 500px;
+}
+
+.report-reason {
+}
+
+.report-accept {
+    background-color: #5F7DE9;
+    width: 111px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.report-and-accept-reject-button {
+    display: flex;
+    gap: 40px;
+}
+
+.report-reject {
+    background-color: #FF6868;
+    width: 111px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
