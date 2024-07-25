@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/css/join.css">
+    <link rel="stylesheet" href="/css/join.css">
     <title>회원가입 페이지</title>
 </head>
 <body>
 <div class="contents">
     <div class="box">
-        <img src="../static/image/medium-logo.png" alt="로그인 페이지 중간 로고 사진">
-        <form id="join-form" action="/api/security/registration" method="post">
+        <img src="/image/medium-logo.png" alt="로그인 페이지 중간 로고 사진">
+        <form id="join-form" action="/api/users/registration" method="post">
             <p class="id">아이디</p>
             <div class="div">
-                <input type="text" class="input-id" name="id" placeholder="아이디를 입력해주세요.">
-                <button class="check">중복 확인</button>
-            </div>
-            <p class="password">비밀번호</p>
-            <div class="div">
-                <input type="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요.">
+                <input type="text" class="input-id" name="loginId" placeholder="아이디를 입력해주세요.">
                 <button class="check">중복 확인</button>
             </div>
             <p class="nickname">닉네임</p>
-            <input type="text" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요.">
+            <div class="div">
+                <input type="text" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요.">
+                <button class="check">중복 확인</button>
+            </div>
+            <p class="password">비밀번호</p>
+            <input type="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요.">
             <button class="join-button" onclick="location.href='main.html'">회원가입</button>
         </form>
 
@@ -31,4 +31,5 @@
 </div>
 
 </body>
+<script src="/js/join.js"></script>
 </html>

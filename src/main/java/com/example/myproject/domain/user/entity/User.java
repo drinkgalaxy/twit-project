@@ -1,6 +1,7 @@
 package com.example.myproject.domain.user.entity;
 
 import com.example.myproject.common.base.BaseTimeEntity;
+import com.example.myproject.domain.user.dto.UserResponse;
 import com.example.myproject.domain.user.enumtype.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,27 +10,25 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @Column(length = 30, unique = true)
+    @Column(unique = true)
     private String loginId;
 
     private String password;
 
-    @Column(length = 30, unique = true)
+    @Column(unique = true)
     private String nickname;
-
 
     @Column(unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private Long totalPostIt;
 
@@ -37,8 +36,37 @@ public class User extends BaseTimeEntity {
 
     private Long exchangedPostIt;
 
-
     private boolean use_yn;
 
     private boolean is_verified;
+
+    @Builder
+    public User(Long id, String loginId, String password, String nickname, String email, Role role, Long totalPostIt, Long availablePostIt, Long exchangedPostIt, boolean use_yn, boolean is_verified) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.role = role;
+        this.totalPostIt = totalPostIt;
+        this.availablePostIt = availablePostIt;
+        this.exchangedPostIt = exchangedPostIt;
+        this.use_yn = use_yn;
+        this.is_verified = is_verified;
+    }
+
+    public UserResponse toResponse() {
+        return UserResponse
+                .builder()
+                .loginId(loginId)
+                .password(password)
+                .nickname(nickname)
+                .role(role)
+                .totalPostIt(totalPostIt)
+                .availablePostIt(availablePostIt)
+                .exchangedPostIt(exchangedPostIt)
+                .use_yn(use_yn)
+                .is_verified(is_verified)
+                .build();
+    }
 }
