@@ -3,13 +3,11 @@ package com.example.myproject.domain.user.entity;
 import com.example.myproject.common.base.BaseTimeEntity;
 import com.example.myproject.domain.user.enumtype.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
