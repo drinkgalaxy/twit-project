@@ -1,21 +1,24 @@
 package com.example.myproject.domain.scrap.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.myproject.common.base.BaseTimeEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Scrap {
+public class Scrap extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "comment_id")
+    @Column(name = "scrap_id")
     private Long id;
+
+    private Long postId;
+
+    private Long userId;
 }

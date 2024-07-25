@@ -1,21 +1,21 @@
 package com.example.myproject.domain.notice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.myproject.common.base.BaseTimeEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notice {
+public class Notice extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "comment_id")
+    @Column(name = "notice_id")
     private Long id;
+
+    private String noticeContents;
 }

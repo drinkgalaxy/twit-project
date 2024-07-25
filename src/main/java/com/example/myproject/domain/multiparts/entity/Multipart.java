@@ -1,9 +1,8 @@
-package com.example.myproject.domain.post.entity;
+package com.example.myproject.domain.multiparts.entity;
 
 import com.example.myproject.common.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,26 +10,24 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post extends BaseTimeEntity {
-
+public class Multipart extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "multipart_id")
     private Long id;
+
+    private Long postId;
 
     private Long userId;
 
-    private String title;
+    private String originalFileName;
 
-    private String contents;
+    private String storedFileName;
 
-    private String description;
+    private Long size;
 
-    private Long viewCount;
+    private String url;
 
     private boolean use_yn;
 
-    private String createdBy;
-
-    private String lastModifiedBy;
 }

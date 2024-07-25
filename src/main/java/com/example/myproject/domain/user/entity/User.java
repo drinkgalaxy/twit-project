@@ -1,17 +1,19 @@
 package com.example.myproject.domain.user.entity;
 
+import com.example.myproject.common.base.BaseTimeEntity;
 import com.example.myproject.domain.user.enumtype.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,5 +1,19 @@
 package com.example.myproject.domain.user.enumtype;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
-    ADMIN, DEFAULT
+    ADMIN("ROLE_ADMIN"),
+    MEMBER("ROLE_MEMBER");
+
+    private final String roleName;
+
+    Role(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
 }
