@@ -58,6 +58,7 @@ public class User extends BaseTimeEntity {
     public UserResponse toResponse() {
         return UserResponse
                 .builder()
+                .id(id)
                 .loginId(loginId)
                 .password(password)
                 .nickname(nickname)
@@ -68,5 +69,13 @@ public class User extends BaseTimeEntity {
                 .use_yn(use_yn)
                 .is_verified(is_verified)
                 .build();
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

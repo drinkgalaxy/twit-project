@@ -33,8 +33,13 @@ public class CommonController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("user", new User());
+    public String loginPage() {
         return "login";
+    }
+
+    @GetMapping("/my-page")
+    public String myPage(Model model) {
+        model.addAttribute("user");
+        return "my-page";
     }
 }

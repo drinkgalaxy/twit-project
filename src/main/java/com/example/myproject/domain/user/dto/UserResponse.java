@@ -11,6 +11,8 @@ import lombok.Getter;
 @Builder
 public class UserResponse {
 
+    private Long id;
+
     private String loginId;
 
     private String password;
@@ -33,6 +35,7 @@ public class UserResponse {
 
     // User 객체를 받아서 UserResponse 를 생성하는 생성자
     public UserResponse(User user) {
+        this.id = user.getId();
         this.loginId = user.getLoginId();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
