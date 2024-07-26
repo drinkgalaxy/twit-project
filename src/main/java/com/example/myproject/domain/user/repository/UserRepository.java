@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.use_yn = true")
     List<User> findAllAble();
 
+
 }
