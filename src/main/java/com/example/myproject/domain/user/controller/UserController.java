@@ -1,9 +1,7 @@
 package com.example.myproject.domain.user.controller;
 
 import com.example.myproject.common.security.CustomUserDetails;
-import com.example.myproject.domain.user.dto.UserCreateRequest;
-import com.example.myproject.domain.user.dto.UserResponse;
-import com.example.myproject.domain.user.dto.UserLoginRequest;
+import com.example.myproject.domain.user.dto.*;
 import com.example.myproject.domain.user.entity.User;
 import com.example.myproject.domain.user.service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -11,9 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -117,23 +116,30 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // 아이디 변경
+    // 닉네임 변경
+    @PatchMapping("/users/nickname/{userId}")
+    public ResponseEntity<UserResponse> updateUserLoginId(@PathVariable Long userId,
+                                                          @RequestBody UserUpdateNicknameRequest request) {
+        UserResponse userResponse = userService.updateNickname(userId, request.getNickname());
+        return ResponseEntity.ok(userResponse);
+    }
 
     // 비밀번호 변경
-
-    // 회원 조회
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<UserResponse>> showUser(@PathVariable String userId) {
-        List<User> userList = userService.findAllAble();
-        if (userList == null) {
-            return ResponseEntity.noContent().build(); // 빈 목록일 경우 noContent 상태 코드 반환
-        }
-        List<UserResponse> responseList = userList.stream()
-                // user 객체를 받아서 userResponse 를 생성함.
-                .map(UserResponse::new)
-                .toList();
-        return ResponseEntity.ok(responseList);
+    @PatchMapping("/users/password/{userId}")
+    public ResponseEntity<UserResponse> updateUserPassword(@PathVariable Long userId,
+                                                           @RequestBody @Validated UserUpdatePasswordRequest request) {
+        UserResponse userResponse = userService.updatePassword(userId, request.getPassword());
+        return ResponseEntity.ok(userResponse);
     }
+
+    // 회원 조회 - 체크용
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserResponse> showUser(@PathVariable Long userId) {
+        UserResponse userResponse = userService.findById(userId);
+        return ResponseEntity.ok(userResponse);
+    }
+
+    // todo 이미지 업로드/삭제
 
 
     // 회원 탈퇴

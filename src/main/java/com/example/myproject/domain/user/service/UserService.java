@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,28 +44,44 @@ public class UserService {
         return userRepository.findByLoginId(LoginId).isPresent();
     }
 
-    // 아이디 존재 확인
-    public UserResponse findByLoginId(String LoginId) {
-        User user = userRepository.findByLoginId(LoginId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다. loginId = "+ LoginId));
-        return user.toResponse();
-    }
-
     // 닉네임 중복 검사
     public boolean isNicknameExists(String nickname) {
         return userRepository.findByNickname(nickname).isPresent();
     }
 
     // 회원 조회
-    public List<User> findAllAble() {
-        return userRepository.findAllAble();
+    public UserResponse findById(Long userId) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
+        return findUser.toResponse();
     }
+
+
+    // 닉네임 변경
+    @Transactional
+    public UserResponse updateNickname(Long userId, String newNickname) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
+        findUser.updateNickname(newNickname);
+        log.info("변경 후 닉네임 = "+ findUser.getNickname());
+        return findUser.toResponse();
+    }
+
+    // 비밀번호 변경
+    @Transactional
+    public UserResponse updatePassword(Long userId, String newPassword) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
+        findUser.updatePassword(encoder.encode(newPassword));
+        return findUser.toResponse();
+    }
+
 
     // 회원 삭제
     @Transactional
     public void delete(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("member_id doesn't exist"));
+                .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
         userRepository.delete(user);
         user.toResponse();
     }
