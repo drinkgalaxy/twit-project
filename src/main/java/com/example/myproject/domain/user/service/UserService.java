@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -58,7 +59,6 @@ public class UserService {
 
 
     // 닉네임 변경
-    @Transactional
     public UserResponse updateNickname(Long userId, String newNickname) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
@@ -68,7 +68,6 @@ public class UserService {
     }
 
     // 비밀번호 변경
-    @Transactional
     public UserResponse updatePassword(Long userId, String newPassword) {
         User findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));
@@ -78,7 +77,6 @@ public class UserService {
 
 
     // 회원 삭제
-    @Transactional
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("userId doesn't exist"));

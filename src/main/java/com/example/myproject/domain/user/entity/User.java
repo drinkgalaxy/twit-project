@@ -55,6 +55,7 @@ public class User extends BaseTimeEntity {
         this.is_verified = is_verified;
     }
 
+    // User 객체를 받아서 UserResponse 를 생성
     public UserResponse toResponse() {
         return UserResponse
                 .builder()

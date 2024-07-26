@@ -144,7 +144,7 @@ public class UserController {
 
     // 회원 탈퇴
     @DeleteMapping("/users/delete")
-    public ResponseEntity<?> delete(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                      HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session != null) {
