@@ -69,16 +69,8 @@
     display: flex;
     align-items: center;
     margin-left: 63px;
+    margin-top: 20px;
     cursor: pointer;
-
-}
-
-.datetime {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 80px;
-    margin-top: 50px;
-    margin-bottom: -40px;
 
 }
 
@@ -103,6 +95,12 @@
     display: flex;
 }
 
+.datetime {
+    display: flex;
+    margin-left: 400px;
+    margin-top: -40px;
+}
+
 .paging {
     display: flex;
     justify-content: center;
@@ -110,7 +108,20 @@
 }
 
 .paging-number {
-    margin-top: 25px;
+    margin-top: 20px;
+}
+
+.paging-number a {
+
+    margin: 0 10px; /* 좌우로 10px 마진 추가 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 링크 색상 상속 */
+}
+.paging-number a.current-page {
+    font-weight: bold; /* 현재 페이지 번호를 굵게 표시 */
+}
+.paging-button {
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
 }
 
 .index {

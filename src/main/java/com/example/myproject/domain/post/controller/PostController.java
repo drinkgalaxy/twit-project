@@ -5,14 +5,15 @@ import com.example.myproject.domain.post.dto.PostCreateRequest;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
+import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -21,19 +22,21 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+    private final PostRepository postRepository;
 
     // 게시글 생성
+    // TODO 파일 업로드 기능 추가
     @PostMapping("/posts")
     // @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
-    public ResponseEntity<PostResponse> createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public ResponseEntity<?> createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                    @RequestBody PostCreateRequest request) {
         Long userId = customUserDetails.getUserId();
-        Post post = postService.save(request, userId);
-        // TODO 파일 업로드 기능 추가
-        log.info("createdDate = "+post.toResponse().getCreatedDate());
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(post.toResponse());
+        try {
+            Post post = postService.save(request, userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(post.toResponse());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // 게시글 상세
@@ -42,9 +45,6 @@ public class PostController {
         return ResponseEntity
                 .ok(postService.findOnePost(postId));
     }
-
-    // 게시글 목록 조회
-    // todo 페이징 기능 - 3개씩 보여주기
 
     // 게시글 수정
     @PutMapping("/posts/{postId}")

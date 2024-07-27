@@ -48,7 +48,7 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.email = email;
         this.role = role;
-        this.totalPostIt = totalPostIt;
+        this.totalPostIt = availablePostIt + exchangedPostIt;
         this.availablePostIt = availablePostIt;
         this.exchangedPostIt = exchangedPostIt;
         this.use_yn = use_yn;
@@ -78,5 +78,17 @@ public class User extends BaseTimeEntity {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void PostItCountUpdate(String update) {
+        if (update.equals("postUpload")) {
+            if (this.availablePostIt - 10 < 0) {
+                this.availablePostIt = 0L;
+            } else {
+                this.availablePostIt -= 10;
+            }
+        } else if (update.equals("commentUpload")) {
+            this.availablePostIt += 1;
+        }
     }
 }
