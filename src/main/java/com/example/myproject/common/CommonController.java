@@ -16,11 +16,6 @@ public class CommonController {
 
     private final UserService userService;
 
-    @GetMapping("/")
-    public String mainPage() {
-        return "main";
-    }
-
     @GetMapping("/intro")
     public String introPage() {
         return "intro";

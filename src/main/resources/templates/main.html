@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/fragment/nav.css">
-    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="/fragment/nav.css">
+    <link rel="stylesheet" href="/css/main.css">
     <title>메인 페이지</title>
 </head>
 <header class="main-header" th:fragment="top">
-    <img class="logo" src="../static/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
     <div class="header-contents">
         <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
 
@@ -21,7 +21,7 @@
 <body class="body">
     <div class="search-div">
         <input type="text" class="search" name="search" placeholder="원하는 단어를 검색하세요.">
-        <img class="search-icon" src="../static/image/search.png" alt="검색 버튼">
+        <img class="search-icon" src="/image/search.png" alt="검색 버튼">
     </div>
 
     <div class="box">
@@ -30,67 +30,48 @@
             <div class="delete">완료</div>
         </div>
         <div class="notice-box">
-            <img class="bookmark" src="../static/image/bookmark.png" alt="북마크 아이콘">
+            <img class="bookmark" src="/image/bookmark.png" alt="북마크 아이콘">
             <p class="notice-text">공지 : 공지입니다. 공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.공지입니다.</p>
         </div>
 
-        <div class="datetime">
-            작성일 2024.07.17
-        </div>
-        <div class="post-box">
+        <div class="post-box" th:each="post : ${postList}">
             <div class="icon-nickname">
-                <img class="user-icon" src="../static/image/user-icon.png" alt="유저 아이콘">
-                <div class="nickname">닉네임</div>
+                <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
+                <div class="nickname" th:text="${post.createdBy}">닉네임</div>
             </div>
             <div class="title-description">
-                <div class="title">
+                <div class="title" th:text="${post.title}">
                     동물 게시판 프로젝트 공유합니다.
                 </div>
-                <div class="description">
+                <div class="description" th:text="${post.description}">
                     간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
                 </div>
             </div>
-        </div>
-        <div class="datetime">
-            작성일 2024.07.17
-        </div>
-        <div class="post-box">
-            <div class="icon-nickname">
-                <img class="user-icon" src="../static/image/user-icon.png" alt="유저 아이콘">
-                <div class="nickname">닉네임</div>
-            </div>
-            <div class="title-description">
-                <div class="title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-        </div>
-        <div class="datetime">
-            작성일 2024.07.17
-        </div>
-        <div class="post-box">
-            <div class="icon-nickname">
-                <img class="user-icon" src="../static/image/user-icon.png" alt="유저 아이콘">
-                <div class="nickname">닉네임</div>
-            </div>
-            <div class="title-description">
-                <div class="title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
+            <div class="datetime" th:text="${post.createdDate}">
+                작성일 2024.07.17
             </div>
         </div>
 
+        <!--페이징 버튼 처리 시작-->
         <div class="paging">
-            <img class="paging-button" src="../static/image/paging-button-left.png" alt="페이징 아이콘 왼쪽">
-            <div class="paging-number">1 2 3 4 5</div>
-            <img class="paging-button" src="../static/image/paging-button-right.png" alt="페이징 아이콘 오른쪽">
+            <!-- 이전 페이지 그룹으로 이동 -->
+            <a th:if="${currentPageGroup > 0}" th:href="@{/main(page=${(currentPageGroup - 1) * 5})}">
+                <img class="paging-button" src="/image/paging-button-left.png" alt="페이징 아이콘 왼쪽">
+            </a>
+
+            <div class="paging-number">
+                <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                   th:href="@{/main(page=${i})}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == currentPage} ? 'current-page' : ''"></a>
+            </div>
+
+            <!-- 다음 페이지 그룹으로 이동 -->
+            <a th:if="${(currentPageGroup + 1) * 5 < totalPages}" th:href="@{/main(page=${(currentPageGroup + 1) * 5})}">
+                <img class="paging-button" src="/image/paging-button-right.png" alt="페이징 아이콘 오른쪽">
+            </a>
         </div>
+        <!--페이징 버튼 처리 끝-->
     </div>
 </body>
 <div class="index">
