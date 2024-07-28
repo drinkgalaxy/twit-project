@@ -5,7 +5,6 @@ import com.example.myproject.domain.post.dto.PostCreateRequest;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
-import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
