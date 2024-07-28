@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/users/registration")
-    public ResponseEntity<?> registration(@RequestBody @Validated UserCreateRequest userCreateRequest) {
+    public ResponseEntity<?> registration(@RequestBody @Valid UserCreateRequest userCreateRequest) {
         if (userService.isLoginIdExists(userCreateRequest.getLoginId())) {
             return ResponseEntity.badRequest().body("이미 존재하는 아이디입니다. loginId = "+userCreateRequest.getLoginId());
         }
@@ -57,7 +58,7 @@ public class UserController {
     // 로그인
     @PostMapping("/users/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response,
-                                   @RequestBody UserLoginRequest userLoginRequest) {
+                                   @RequestBody @Valid UserLoginRequest userLoginRequest) {
         try {
             // 사용자 인증
             UserDetails userDetails = userDetailsService.loadUserByUsername(userLoginRequest.getLoginId());
@@ -119,7 +120,7 @@ public class UserController {
     // 닉네임 변경
     @PatchMapping("/users/nickname/{userId}")
     public ResponseEntity<UserResponse> updateUserLoginId(@PathVariable Long userId,
-                                                          @RequestBody UserUpdateNicknameRequest request) {
+                                                          @RequestBody @Valid UserUpdateNicknameRequest request) {
         UserResponse userResponse = userService.updateNickname(userId, request.getNickname());
         return ResponseEntity.ok(userResponse);
     }
@@ -127,7 +128,7 @@ public class UserController {
     // 비밀번호 변경
     @PatchMapping("/users/password/{userId}")
     public ResponseEntity<UserResponse> updateUserPassword(@PathVariable Long userId,
-                                                           @RequestBody @Validated UserUpdatePasswordRequest request) {
+                                                           @RequestBody @Valid UserUpdatePasswordRequest request) {
         UserResponse userResponse = userService.updatePassword(userId, request.getPassword());
         return ResponseEntity.ok(userResponse);
     }

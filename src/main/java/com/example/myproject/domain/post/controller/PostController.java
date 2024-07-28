@@ -7,6 +7,7 @@ import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
 import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,14 +23,13 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
-    private final PostRepository postRepository;
 
     // 게시글 생성
     // TODO 파일 업로드 기능 추가
     @PostMapping("/posts")
     // @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
     public ResponseEntity<?> createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                                   @RequestBody PostCreateRequest request) {
+                                                   @RequestBody @Valid PostCreateRequest request) {
         Long userId = customUserDetails.getUserId();
         try {
             Post post = postService.save(request, userId);
@@ -49,7 +49,7 @@ public class PostController {
     // 게시글 수정
     @PutMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId,
-                                                   @RequestBody PostUpdateRequest request) {
+                                                   @RequestBody @Valid PostUpdateRequest request) {
         Post updatedPost = postService.update(postId, request);
         return ResponseEntity
                 .ok(updatedPost.toResponse());
