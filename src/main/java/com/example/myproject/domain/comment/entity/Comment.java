@@ -3,7 +3,6 @@ package com.example.myproject.domain.comment.entity;
 import com.example.myproject.common.base.BaseTimeEntity;
 import com.example.myproject.domain.comment.dto.CommentResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +43,7 @@ public class Comment extends BaseTimeEntity {
                 .userId(userId)
                 .comments(comments)
                 .use_yn(use_yn)
+                .createdDate(getCreatedDate())
                 .build();
     }
 

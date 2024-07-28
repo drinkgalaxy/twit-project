@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @Builder
@@ -18,4 +20,8 @@ public class CommentResponse {
     private String comments;
 
     private boolean use_yn;
+
+    private LocalDateTime createdDate;
+
+    private LocalDateTime lastModifiedDate;
 }
