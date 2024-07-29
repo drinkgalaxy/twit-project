@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("select c from Comment c where  c.postId = :postId")
+    @Query("select c from Comment c where  c.postId = :postId AND c.use_yn = true")
     List<Comment> findAllById(Long postId);
 
     @Query("select c from Comment c where c.id = :commentId AND c.use_yn = true")
@@ -24,4 +24,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Modifying
     @Query("update Comment c set c.use_yn = false where c.id = :commentId")
     void disableCommentById(Long commentId);
+
+    @Modifying
+    @Query("update Comment c set c.use_yn = true where c.id = :commentId")
+    void ableCommentById(Long commentId);
+
 }

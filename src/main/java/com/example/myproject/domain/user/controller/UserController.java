@@ -91,6 +91,7 @@ public class UserController {
             cookie.setMaxAge(30000 * 60);
             response.addCookie(cookie);
 
+
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (AuthenticationException e) {
             // 인증 실패
