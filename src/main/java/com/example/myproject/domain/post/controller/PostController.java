@@ -5,7 +5,6 @@ import com.example.myproject.domain.post.dto.PostCreateRequest;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
-import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,16 +48,20 @@ public class PostController {
     // 게시글 수정
     @PutMapping("/posts/{postId}")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId,
-                                                   @RequestBody @Valid PostUpdateRequest request) {
-        Post updatedPost = postService.update(postId, request);
+                                                   @RequestBody @Valid PostUpdateRequest request,
+                                                   @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Long userId = customUserDetails.getUserId();
+        Post updatedPost = postService.update(postId, request, userId);
         return ResponseEntity
                 .ok(updatedPost.toResponse());
     }
 
     // 모집글 삭제 - 사실 삭제 대신 use_yn = false 처리
     @DeleteMapping("/posts/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-        postService.disablePostById(postId);
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId,
+                                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Long userId = customUserDetails.getUserId();
+        postService.disablePostById(postId, userId);
         return ResponseEntity
                 .ok().build();
     }

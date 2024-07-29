@@ -35,42 +35,42 @@ public class DataInit {
                 .build();
         userRepository.save(savedUser);
 
-//        Post savedPost1 = Post.builder()
-//                .userId(savedUser.getId())
-//                .title("제목")
-//                .contents("내용")
-//                .description("한줄 소개")
-//                .viewCount(0L)
-//                .use_yn(true)
-//                .createdBy(savedUser.getNickname())
-//                .lastModifiedBy(savedUser.getNickname())
-//                .build();
-//
-//        Post savedPost2 = Post.builder()
-//                .userId(savedUser.getId())
-//                .title("제목222")
-//                .contents("내용222")
-//                .description("한줄 소개222")
-//                .viewCount(0L)
-//                .use_yn(true)
-//                .createdBy(savedUser.getNickname())
-//                .lastModifiedBy(savedUser.getNickname())
-//                .build();
-//
-//        Post savedPost3 = Post.builder()
-//                .userId(savedUser.getId())
-//                .title("제목333")
-//                .contents("내용333")
-//                .description("한줄 소개333")
-//                .viewCount(0L)
-//                .use_yn(true)
-//                .createdBy(savedUser.getNickname())
-//                .lastModifiedBy(savedUser.getNickname())
-//                .build();
-//
-//        postRepository.save(savedPost1);
-//        postRepository.save(savedPost2);
-//        postRepository.save(savedPost3);
+        Post savedPost1 = Post.builder()
+                .userId(savedUser.getId())
+                .title("제목")
+                .contents("내용")
+                .description("한줄 소개")
+                .viewCount(0L)
+                .use_yn(true)
+                .createdBy(savedUser.getNickname())
+                .lastModifiedBy(savedUser.getNickname())
+                .build();
+
+        Post savedPost2 = Post.builder()
+                .userId(savedUser.getId())
+                .title("제목222")
+                .contents("내용222")
+                .description("한줄 소개222")
+                .viewCount(0L)
+                .use_yn(true)
+                .createdBy(savedUser.getNickname())
+                .lastModifiedBy(savedUser.getNickname())
+                .build();
+
+        Post savedPost3 = Post.builder()
+                .userId(savedUser.getId())
+                .title("제목333")
+                .contents("내용333")
+                .description("한줄 소개333")
+                .viewCount(0L)
+                .use_yn(true)
+                .createdBy(savedUser.getNickname())
+                .lastModifiedBy(savedUser.getNickname())
+                .build();
+
+        postRepository.save(savedPost1);
+        postRepository.save(savedPost2);
+        postRepository.save(savedPost3);
 
 
     }

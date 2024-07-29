@@ -61,13 +61,24 @@ public class PostService {
         return findPosts;
     }
 
-    public Post update(Long postId, PostUpdateRequest request) {
+    public Post update(Long postId, PostUpdateRequest request, Long userId) {
         Post post = postRepository.findByIdAble(postId);
+
+        if (!post.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
+        }
+
         post.update(request.getContents(), request.getDescription());
         return post;
     }
 
-    public void disablePostById(Long postId) {
+    public void disablePostById(Long postId, Long userId) {
+        Post post = postRepository.findByIdAble(postId);
+
+        if (!post.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("작성자만 삭제 가능합니다.");
+        }
+
         postRepository.disablePostById(postId);
     }
 }
