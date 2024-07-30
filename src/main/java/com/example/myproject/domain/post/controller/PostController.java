@@ -11,8 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 
 @RestController
@@ -47,24 +51,26 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/posts/{postId}")
+    @PreAuthorize("(#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails.userId == @postService.getPostAuthorId(#postId))")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId,
                                                    @RequestBody @Valid PostUpdateRequest request,
                                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Long userId = customUserDetails.getUserId();
-        Post updatedPost = postService.update(postId, request, userId);
+        log.info(String.valueOf(customUserDetails.getAuthorities()));
+        log.info(String.valueOf(postService.getPostAuthorAuth()));
+        Post updatedPost = postService.update(postId, request);
+
         return ResponseEntity
                 .ok(updatedPost.toResponse());
     }
 
     // 모집글 삭제 - 사실 삭제 대신 use_yn = false 처리
     @DeleteMapping("/posts/{postId}")
+    @PreAuthorize("(#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails.userId == @postService.getPostAuthorId(#postId))")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId,
                                            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Long userId = customUserDetails.getUserId();
-        postService.disablePostById(postId, userId);
+        postService.disablePostById(postId);
         return ResponseEntity
                 .ok().build();
     }
-
 
 }

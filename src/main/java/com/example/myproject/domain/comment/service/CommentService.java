@@ -10,8 +10,12 @@ import com.example.myproject.domain.comment.repository.CommentRepository;
 import com.example.myproject.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -20,7 +24,6 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     public Comment save(Long userId, CommentCreateRequest request, Long postId) {
@@ -38,17 +41,23 @@ public class CommentService {
         return commentRepository.findAllById(postId);
     }
 
-    public void deleteComment(Long userId, Long commentId) {
+    public void deleteComment(Long commentId) {
         Comment findComment = commentRepository.findByIdAble(commentId);
-
-        validaUser(findComment, userId, "본인이 작성한 포스트잇만 삭제할 수 있습니다.");
-
         commentRepository.disableCommentById(findComment.getId());
     }
 
-    private void validaUser(Comment findComment, Long userId, String s) {
-        if (!findComment.getUserId().equals(userId)) {
-            throw new IllegalArgumentException(s);
-        }
+
+    // 특정 게시글의 작성자 ID를 반환하는 메서드 - 권한 체크용
+    public Long getPostAuthorId(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("commentId가 존재하지 않습니다."));
+        return comment.getUserId();
+    }
+
+    // ROLE_ADMIN 반환하는 메서드 - 권한 체크용
+    public Collection<GrantedAuthority> getPostAuthorAuth() {
+        Collection<GrantedAuthority> role = new ArrayList<>();
+        role.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return role;
     }
 }

@@ -13,10 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -61,24 +64,29 @@ public class PostService {
         return findPosts;
     }
 
-    public Post update(Long postId, PostUpdateRequest request, Long userId) {
-        Post post = postRepository.findByIdAble(postId);
 
-        if (!post.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
-        }
+    public Post update(Long postId, PostUpdateRequest request) {
+        Post post = postRepository.findByIdAble(postId);
 
         post.update(request.getContents(), request.getDescription());
         return post;
     }
 
-    public void disablePostById(Long postId, Long userId) {
-        Post post = postRepository.findByIdAble(postId);
-
-        if (!post.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("작성자만 삭제 가능합니다.");
-        }
-
+    public void disablePostById(Long postId) {
         postRepository.disablePostById(postId);
+    }
+
+    // 특정 게시글의 작성자 ID를 반환하는 메서드 - 권한 체크용
+    public Long getPostAuthorId(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("postId가 존재하지 않습니다."));
+        return post.getUserId();
+    }
+
+    // ROLE_ADMIN 반환하는 메서드 - 권한 체크용
+    public Collection<GrantedAuthority> getPostAuthorAuth() {
+        Collection<GrantedAuthority> role = new ArrayList<>();
+        role.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return role;
     }
 }
