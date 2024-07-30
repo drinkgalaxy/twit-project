@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +46,9 @@ public class ReportController {
 
     // 신고 수락
     @PatchMapping("/report/{reportId}/accept")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> acceptReport(@PathVariable Long reportId) {
+    @PreAuthorize("#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())")
+    public ResponseEntity<Void> acceptReport(@PathVariable Long reportId,
+                                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         reportService.acceptReport(reportId);
 
         return ResponseEntity.ok().build();
@@ -54,8 +56,9 @@ public class ReportController {
 
     // 신고 거절
     @DeleteMapping("/report/{reportId}")
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> deleteReport(@PathVariable Long reportId) {
+    @PreAuthorize("#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())")
+    public ResponseEntity<Void> deleteReport(@PathVariable Long reportId,
+                                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         reportService.deleteReport(reportId);
 
         return ResponseEntity.noContent().build();
