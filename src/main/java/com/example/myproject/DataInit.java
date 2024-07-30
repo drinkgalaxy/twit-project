@@ -34,8 +34,6 @@ public class DataInit {
         noticeRepository.save(notice);
     }
 
-
-
     // 테스트용 데이터 추가
 
     // user
