@@ -55,8 +55,6 @@ public class PostController {
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId,
                                                    @RequestBody @Valid PostUpdateRequest request,
                                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        log.info(String.valueOf(customUserDetails.getAuthorities()));
-        log.info(String.valueOf(postService.getPostAuthorAuth()));
         Post updatedPost = postService.update(postId, request);
 
         return ResponseEntity

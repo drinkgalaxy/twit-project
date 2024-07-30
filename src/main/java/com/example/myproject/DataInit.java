@@ -2,6 +2,8 @@ package com.example.myproject;
 
 import com.example.myproject.domain.comment.entity.Comment;
 import com.example.myproject.domain.comment.repository.CommentRepository;
+import com.example.myproject.domain.notice.entity.Notice;
+import com.example.myproject.domain.notice.repository.NoticeRepository;
 import com.example.myproject.domain.post.entity.Post;
 import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.user.entity.User;
@@ -19,6 +21,20 @@ public class DataInit {
     private final PostRepository postRepository;
     private final BCryptPasswordEncoder encoder;
     private final CommentRepository commentRepository;
+    private final NoticeRepository noticeRepository;
+
+    // 공지 추가
+    @PostConstruct
+    public void CreateNotice() {
+        Notice notice = Notice.builder()
+                .userId(0L)
+                .noticeContents("오늘의 공지입니다.")
+                .build();
+
+        noticeRepository.save(notice);
+    }
+
+
 
     // 테스트용 데이터 추가
 
