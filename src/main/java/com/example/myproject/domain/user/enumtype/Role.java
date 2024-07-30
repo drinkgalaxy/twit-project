@@ -7,6 +7,7 @@ public enum Role {
     ADMIN("ROLE_ADMIN"),
     MEMBER("ROLE_MEMBER");
 
+
     private final String roleName;
 
     Role(String roleName) {

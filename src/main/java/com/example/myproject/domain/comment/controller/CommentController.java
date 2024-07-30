@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +46,10 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/comments/{commentId}")
+    @PreAuthorize("(#customUserDetails.authorities.containsAll(@commentService.getPostAuthorAuth())) or (#customUserDetails.userId == @commentService.getPostAuthorId(#commentId))")
     public ResponseEntity<Void> deleteComment(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                               @PathVariable Long commentId) {
-        Long userId = customUserDetails.getUserId();
-        commentService.deleteComment(userId, commentId);
+        commentService.deleteComment(commentId);
 
         return ResponseEntity
                 .noContent()
