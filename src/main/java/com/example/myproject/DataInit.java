@@ -28,7 +28,7 @@ public class DataInit {
     public void CreateNotice() {
         Notice notice = Notice.builder()
                 .userId(0L)
-                .noticeContents("게시판을 이용 규칙을 잘 지켜주세요.")
+                .noticeContents("오늘의 공지입니다.")
                 .build();
 
         noticeRepository.save(notice);
