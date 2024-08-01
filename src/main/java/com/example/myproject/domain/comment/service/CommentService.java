@@ -34,7 +34,7 @@ public class CommentService {
         user.PostItCountUpdate("commentUpload");
         log.info("댓글 업로드 후 포스트잇 개수 = "+ user.getAvailablePostIt());
 
-        return commentRepository.save(request.toEntity(user.getId(), postId));
+        return commentRepository.save(request.toEntity(user.getId(), postId, request.getComments(), user.getNickname()));
     }
 
     public List<Comment> findComments(Long postId) {

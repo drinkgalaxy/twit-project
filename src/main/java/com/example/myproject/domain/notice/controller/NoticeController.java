@@ -5,6 +5,8 @@ import com.example.myproject.domain.notice.dto.NoticeResponse;
 import com.example.myproject.domain.notice.dto.NoticeUpdateRequest;
 import com.example.myproject.domain.notice.entity.Notice;
 import com.example.myproject.domain.notice.service.NoticeService;
+import com.example.myproject.domain.user.entity.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +34,10 @@ public class NoticeController {
     @PutMapping("/notice/{noticeId}")
     @PreAuthorize("#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())")
     public ResponseEntity<NoticeResponse> updateNotice(@PathVariable Long noticeId,
-                                                       @RequestBody NoticeUpdateRequest request,
+                                                       @RequestBody @Valid NoticeUpdateRequest request,
                                                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        log.info(customUserDetails.getAuthorities().toString());
-        Notice notice = noticeService.update(noticeId, request);
+
+        Notice notice = noticeService.update(noticeId, request, customUserDetails);
         return ResponseEntity
                 .ok(notice.toResponse());
     }

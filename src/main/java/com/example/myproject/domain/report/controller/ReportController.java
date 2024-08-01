@@ -27,14 +27,14 @@ public class ReportController {
 
     // 댓글 신고 생성
     @PostMapping("/report/comments/{commentId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ReportResponse> createReport(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                        @PathVariable Long commentId,
                                                        @RequestBody @Valid ReportCreateRequest request) {
         Long userId = customUserDetails.getUserId();
         ReportResponse response = reportService.create(userId, commentId, request);
 
-        return ResponseEntity.status(CREATED)
-                .body(response);
+        return ResponseEntity.ok().body(response);
     }
 
     // 신고 목록 조회

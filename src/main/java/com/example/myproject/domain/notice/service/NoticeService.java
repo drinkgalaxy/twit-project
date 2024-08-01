@@ -1,5 +1,6 @@
 package com.example.myproject.domain.notice.service;
 
+import com.example.myproject.common.security.CustomUserDetails;
 import com.example.myproject.domain.notice.dto.NoticeResponse;
 import com.example.myproject.domain.notice.dto.NoticeUpdateRequest;
 import com.example.myproject.domain.notice.entity.Notice;
@@ -22,11 +23,11 @@ public class NoticeService {
         return notice.toResponse();
     }
 
-    public Notice update(Long noticeId, NoticeUpdateRequest request) {
+    public Notice update(Long noticeId, NoticeUpdateRequest request, CustomUserDetails customUserDetails) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new IllegalArgumentException("noticeId 를 찾을 수 없습니다."));
 
-        notice.update(request.getNoticeContents());
+        notice.update(request.getNoticeContents(), customUserDetails.getUserId(), customUserDetails.getNickname());
 
         return notice;
     }

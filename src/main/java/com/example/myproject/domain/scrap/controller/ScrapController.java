@@ -7,6 +7,7 @@ import com.example.myproject.domain.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class ScrapController {
 
     // 스크랩 상태 업데이트
     @PostMapping("/post/{postId}/scrap")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ScrapMessageResponse> updateScrap(@PathVariable Long postId,
                                                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         Long userId = customUserDetails.getUserId();

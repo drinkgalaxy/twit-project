@@ -7,9 +7,9 @@
     <title>메인 페이지</title>
 </head>
 <header class="main-header" th:fragment="top">
-    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='/'>
+    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick="location.href='/'">
     <div class="header-contents">
-        <div class="move-button" onclick=location.href='/intro'>사용 방법</div>
+        <div class="move-button" onclick="location.href='/intro'">사용 방법</div>
         <div class="LoggedIn" th:if="${isLoggedIn}">
             <div class="my-button" onclick="location.href='/my-page'">내 정보</div>
             <div class="logout-button" id="logout-button">로그아웃</div>
@@ -22,61 +22,59 @@
 </header>
 
 <body class="body">
-    <div class="search-div">
-        <input type="text" class="search" name="search" placeholder="원하는 단어를 검색하세요.">
-        <img class="search-icon" src="/image/search.png" alt="검색 버튼">
+<div class="search-div">
+    <input type="text" class="search" name="search" placeholder="원하는 단어를 검색하세요.">
+    <img class="search-icon" src="/image/search.png" alt="검색 버튼">
+</div>
+
+<div class="box">
+    <div th:if="${isAdmin}" class="bookmark-button">
+        <div class="modify" onclick="editNotice()">수정</div>
+    </div>
+    <div class="notice-box" th:data-notice-id="${notice.id}">
+        <img class="bookmark" src="/image/bookmark.png" alt="북마크 아이콘">
+        <p class="notice-text" id="notice-text" th:text="'공지 : ' + ${notice.noticeContents}"></p>
     </div>
 
-    <div class="box">
-        <div th:if="${isAdmin}" class="bookmark-button">
-            <div class="modify">수정</div>
-            <div class="delete">완료</div>
+    <div class="post-box" th:each="post : ${postList}" th:data-post-id="${post.id}">
+        <div class="icon-nickname">
+            <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
+            <div class="nickname" th:text="${post.createdBy}">닉네임</div>
         </div>
-        <div class="notice-box">
-            <img class="bookmark" src="/image/bookmark.png" alt="북마크 아이콘">
-            <p class="notice-text" th:text="'공지 : ' + ${notice.noticeContents}">
-            </p>
-        </div>
-
-        <div class="post-box" th:each="post : ${postList}" th:data-post-id="${post.id}">
-            <div class="icon-nickname">
-                <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
-                <div class="nickname" th:text="${post.createdBy}">닉네임</div>
+        <div class="title-description">
+            <div class="title" th:text="${post.title}">
+                동물 게시판 프로젝트 공유합니다.
             </div>
-            <div class="title-description">
-                <div class="title" th:text="${post.title}">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="description" th:text="${post.description}">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-            <div class="datetime" th:text="${post.createdDate}">
-                작성일 2024.07.17
+            <div class="description" th:text="${post.description}">
+                간단한 CRUD 만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
             </div>
         </div>
-
-        <!--페이징 버튼 처리 시작-->
-        <div class="paging">
-            <!-- 이전 페이지 그룹으로 이동 -->
-            <a th:if="${currentPageGroup > 0}" th:href="@{/main(page=${(currentPageGroup - 1) * 5})}">
-                <img class="paging-button" src="/image/paging-button-left.png" alt="페이징 아이콘 왼쪽">
-            </a>
-
-            <div class="paging-number">
-                <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
-                   th:href="@{/main(page=${i})}"
-                   th:text="${i + 1}"
-                   th:classappend="${i == currentPage} ? 'current-page' : ''"></a>
-            </div>
-
-            <!-- 다음 페이지 그룹으로 이동 -->
-            <a th:if="${(currentPageGroup + 1) * 5 < totalPages}" th:href="@{/main(page=${(currentPageGroup + 1) * 5})}">
-                <img class="paging-button" src="/image/paging-button-right.png" alt="페이징 아이콘 오른쪽">
-            </a>
+        <div class="datetime" th:date="${post.createdDate}">
+            작성일 2024.07.17
         </div>
-        <!--페이징 버튼 처리 끝-->
     </div>
+
+    <!--페이징 버튼 처리 시작-->
+    <div class="paging">
+        <!-- 이전 페이지 그룹으로 이동 -->
+        <a th:if="${currentPageGroup > 0}" th:href="@{/main(page=${(currentPageGroup - 1) * 5})}">
+            <img class="paging-button" src="/image/paging-button-left.png" alt="페이징 아이콘 왼쪽">
+        </a>
+
+        <div class="paging-number">
+            <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+               th:href="@{/main(page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage} ? 'current-page' : ''"></a>
+        </div>
+
+        <!-- 다음 페이지 그룹으로 이동 -->
+        <a th:if="${(currentPageGroup + 1) * 5 < totalPages}" th:href="@{/main(page=${(currentPageGroup + 1) * 5})}">
+            <img class="paging-button" src="/image/paging-button-right.png" alt="페이징 아이콘 오른쪽">
+        </a>
+    </div>
+    <!--페이징 버튼 처리 끝-->
+</div>
 </body>
 
 <div class="index">
@@ -94,19 +92,7 @@
     </div>
 </div>
 
-<!-- 수정 폼 (모달로 구현) -->
-<div id="edit-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close-button" id="close-edit-modal">&times;</span>
-        <h2>공지 수정</h2>
-        <form id="edit-form">
-            <input type="hidden" id="notice-id">
-            <textarea id="notice-content" placeholder="공지 내용을 입력하세요..." rows="4" cols="50"></textarea>
-            <button type="submit">완료</button>
-        </form>
-    </div>
-</div>
-
 
 <script src="/js/main.js"></script>
+<script src="/fragment/nav.js"></script>
 </html>

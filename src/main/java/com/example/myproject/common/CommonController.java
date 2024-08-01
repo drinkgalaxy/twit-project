@@ -1,11 +1,15 @@
 package com.example.myproject.common;
 
 import com.example.myproject.common.security.CustomUserDetails;
+import com.example.myproject.domain.comment.dto.CommentResponse;
+import com.example.myproject.domain.comment.entity.Comment;
+import com.example.myproject.domain.comment.service.CommentService;
 import com.example.myproject.domain.notice.dto.NoticeResponse;
 import com.example.myproject.domain.notice.service.NoticeService;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.entity.Post;
 import com.example.myproject.domain.post.service.PostService;
+import com.example.myproject.domain.scrap.service.ScrapService;
 import com.example.myproject.domain.user.entity.User;
 import com.example.myproject.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +22,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class CommonController {
 
-    private final UserService userService;
+    private final CommentService commentService;
     private final PostService postService;
     private final NoticeService noticeService;
+    private final UserService userService;
+    private final ScrapService scrapService;
 
     // 인트로 페이지
     @GetMapping("/intro")
@@ -83,11 +91,31 @@ public class CommonController {
 
     // 게시글 상세 페이지
     @GetMapping("/posts/{postId}")
-    public String mainDetails(@PathVariable Long postId, Model model) {
-        // id를 사용하여 게시글 정보를 조회합니다
+    public String mainDetails(@PathVariable Long postId, Model model,
+                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        
+        // 로그인 여부 확인
+        boolean isLoggedIn = (customUserDetails != null);
+        model.addAttribute("isLoggedIn", isLoggedIn);
+
+        // id를 사용하여 게시글 정보를 조회
         PostResponse post = postService.findOnePost(postId);
         model.addAttribute("post", post);
+
+        // id를 사용하여 댓글 정보를 조회
+        List<Comment> commentList = commentService.findComments(postId);
+        model.addAttribute("commentList", commentList);
+
+        // 스크랩 상태 조회
+        boolean isScrapped = false;
+        if (customUserDetails != null) {
+            Long userId = customUserDetails.getUserId();
+            isScrapped = scrapService.hasScrap(postId, userId);
+        }
+        model.addAttribute("isScrapped", isScrapped);
+        
         return "main-details"; // 상세 페이지의 뷰 이름
+
     }
 
     // 글 업로드 페이지

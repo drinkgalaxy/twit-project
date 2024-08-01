@@ -212,4 +212,17 @@
     cursor: pointer;
 }
 
+.modify {
+    cursor: pointer;
+}
+
+#notice-input {
+    width: 500px; /* 부모 요소의 너비에 맞춤 */
+    height: 100px; /* 고정 높이 */
+
+    background: #F7EFC4; /* 배경 색깔 */
+    border: 1px solid #ccc; /* 경계선 색깔 (옵션) */
+    padding: 10px; /* 내부 여백 (옵션) */
+    box-sizing: border-box; /* 패딩과 테두리가 전체 너비에 포함되도록 설정 */
+}
 
