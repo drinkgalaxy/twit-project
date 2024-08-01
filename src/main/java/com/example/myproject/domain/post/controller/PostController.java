@@ -51,7 +51,7 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/posts/{postId}")
-    @PreAuthorize("(#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails.userId == @postService.getPostAuthorId(#postId))")
+    @PreAuthorize("isAuthenticated() and ((#customUserDetails != null and #customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails != null and #customUserDetails.userId == @postService.getPostAuthorId(#postId)))")
     public ResponseEntity<PostResponse> updatePost(@PathVariable Long postId,
                                                    @RequestBody @Valid PostUpdateRequest request,
                                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -63,7 +63,7 @@ public class PostController {
 
     // 모집글 삭제 - 사실 삭제 대신 use_yn = false 처리
     @DeleteMapping("/posts/{postId}")
-    @PreAuthorize("(#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails.userId == @postService.getPostAuthorId(#postId))")
+    @PreAuthorize("isAuthenticated() and ((#customUserDetails != null and #customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())) or (#customUserDetails != null and #customUserDetails.userId == @postService.getPostAuthorId(#postId)))")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId,
                                            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         postService.disablePostById(postId);

@@ -22,62 +22,61 @@
 </header>
 
 <body class="body">
-    <div class="box">
-        <div class="main-box">
-            <div class="buttons">
-                <button class="modify-button">수정</button>
-                <button class="delete-button">삭제</button>
+<div class="box">
+    <div class="main-box">
+        <div class="buttons">
+            <button class="modify-button">수정</button>
+            <button class="delete-button">삭제</button>
+        </div>
+        <div class="top">
+            <div class="icon-nickname">
+                <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
+                <div class="nickname" th:text="${post.createdBy}">닉네임</div>
             </div>
-            <div class="top">
-                <div class="icon-nickname">
-                    <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
-                    <div class="nickname" th:text="${post.createdBy}">닉네임</div>
-                </div>
-                <div class="title" th:text="${post.title}">동물 게시판 프로젝트 공유합니다.</div>
-            </div>
-            <div class="description-heart">
-                <div class="description" th:text="${post.description}">간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!</div>
-                <div class="heart" th:data-scrapped="${isScrapped}">
-                    <img id="heart-image"
-                         th:src="${isScrapped ? '/image/filled-heart.png' : '/image/empty-heart.png'}"
-                         alt="하트 이미지">
-                </div>
-            </div>
-            <hr class="hr">
-            <div class="datetime-viewCount">
-                <div class="datetime" th:date="${post.createdDate}">작성일 2024.07.17</div>
-                <div class="viewCount" th:text="'조회수 ' + ${post.viewCount}">조회수 10</div>
-
-            </div>
-            <div class="content" th:text="${post.contents}">
-                깃허브 주소입니다.<br><br>
-                프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
-                배포 주소<br><br>
-
-                배포 주소배포 주소배포 주소
-                배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
-                배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+            <div class="title" id="post-title" th:text="${post.title}">동물 게시판 프로젝트 공유합니다.</div>
+        </div>
+        <div class="description-heart">
+            <div class="description" id="post-description" th:text="${post.description}">간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!</div>
+            <div class="heart" th:data-scrapped="${isScrapped}">
+                <img id="heart-image"
+                     th:src="${isScrapped ? '/image/filled-heart.png' : '/image/empty-heart.png'}"
+                     alt="하트 이미지">
             </div>
         </div>
-        <button class="feedback-button">피드백 붙이기</button>
-        <div class="feedbacks">
-            <!-- 댓글 반복 출력 -->
-            <div th:each="comment : ${commentList}" class="feedback-cube" th:data-comment-id="${comment.id}">
-                <button class="make-delete">삭제</button>
-                <div class="feedback">
-                    <button class="notice-button">신고하기</button>
-                    <div class="feedback-nickname" th:text="${comment.createdBy}">닉네임</div>
-                    <div class="feedback-text" th:text="${comment.comments}">
-                        아주 굿이네요<br>
-                        코드가 너무 깔끔하고
-                        아이디어가 좋아요<br>
-                        대박!
-                        아주 굿이네요<br>
-                    </div>
+        <hr class="hr">
+        <div class="datetime-viewCount">
+            <div class="datetime" th:date="${post.createdDate}">작성일 2024.07.17</div>
+            <div class="viewCount" th:text="'조회수 ' + ${post.viewCount}">조회수 10</div>
+        </div>
+        <div class="content" id="post-contents" th:text="${post.contents}">
+            깃허브 주소입니다.<br><br>
+            프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
+            배포 주소<br><br>
+            배포 주소배포 주소배포 주소
+            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+        </div>
+<!--        <button class="file-upload-button">파일 업로드</button>-->
+    </div>
+    <button class="feedback-button">피드백 붙이기</button>
+    <div class="feedbacks">
+        <!-- 댓글 반복 출력 -->
+        <div th:each="comment : ${commentList}" class="feedback-cube" th:data-comment-id="${comment.id}">
+            <button class="make-delete">삭제</button>
+            <div class="feedback">
+                <button class="notice-button">신고하기</button>
+                <div class="feedback-nickname" th:text="${comment.createdBy}">닉네임</div>
+                <div class="feedback-text" th:text="${comment.comments}">
+                    아주 굿이네요<br>
+                    코드가 너무 깔끔하고
+                    아이디어가 좋아요<br>
+                    대박!
+                    아주 굿이네요<br>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 
 <div class="index">
@@ -96,7 +95,6 @@
 </div>
 
 <!-- 피드백 붙이기 모달창 -->
-
 <div class="modal-overlay feedback-overlay" style="display: none;"></div>
 <div class="feedback-modal" style="display: none;">
     <form id="feedback-form">
@@ -106,7 +104,6 @@
         <button type="submit" class="feedback-upload-button">피드백 붙이기</button>
     </form>
 </div>
-
 
 <!-- 현재 포스트 ID를 포함한 숨겨진 입력 필드 -->
 <input type="hidden" id="postId" th:value="${post.id}">

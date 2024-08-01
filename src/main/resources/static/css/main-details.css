@@ -181,6 +181,19 @@
     margin-left: 750px;
 }
 
+/* .file-upload-button 스타일 수정 */
+.file-upload-button {
+    background-color: #7BD3EA;
+    width: 166px;
+    height: 55px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 0; /* 왼쪽 여백 제거 */
+}
+
 .make-delete {
     display: flex;
     justify-content: flex-start;
@@ -344,4 +357,14 @@
     border-radius: 10px;
 }
 
+#new-description {
+    width: 650px;
+    height: 60px;
+    resize: none;
+}
 
+#new-contents {
+    width: 650px;
+    height: 300px;
+    resize: none;
+}

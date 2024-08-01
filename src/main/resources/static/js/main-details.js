@@ -224,3 +224,88 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// --------------- 게시글 수정 / 삭제
+document.addEventListener('DOMContentLoaded', function() {
+    const modifyButton = document.querySelector('.modify-button');
+    const deleteButton = document.querySelector('.delete-button');
+    const postId = document.getElementById('postId').value;
+
+    modifyButton.addEventListener('click', function () {
+        const descriptionElement = document.getElementById('post-description');
+        const contentsElement = document.getElementById('post-contents');
+
+        const currentDescription = descriptionElement.innerText;
+        const currentContents = contentsElement.innerText;
+
+        descriptionElement.innerHTML = `<textarea id="new-description">${currentDescription}</textarea>`;
+        contentsElement.innerHTML = `<textarea id="new-contents">${currentContents}</textarea>`;
+
+        modifyButton.innerText = '저장';
+        modifyButton.removeEventListener('click', arguments.callee);
+        modifyButton.addEventListener('click', function () {
+            const newDescription = document.getElementById('new-description').value;
+            const newContents = document.getElementById('new-contents').value;
+
+            if (newDescription && newContents) {
+                const requestBody = {
+                    description: newDescription,
+                    contents: newContents
+                };
+
+                fetch(`/api/posts/${postId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json().then(data => {
+                                alert("게시글이 성공적으로 수정되었습니다.");
+                                window.location.reload();
+                            });
+                        } else {
+                            return response.text().then(errorMessage => {
+                                showAlert(errorMessage);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('게시글 수정 오류:', error);
+                    });
+            } else {
+                alert("모든 필드를 입력해야 합니다.");
+            }
+        });
+
+        deleteButton.addEventListener('click', function () {
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                fetch(`/api/posts/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("게시글이 성공적으로 삭제되었습니다.");
+                            window.location.href = '/'; // 삭제 후 메인 페이지로 이동
+                        } else {
+                            return response.text().then(errorMessage => {
+                                showAlert(errorMessage);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('게시글 삭제 오류:', error);
+                    });
+            }
+        });
+
+        // showAlert 함수 정의
+        function showAlert(message) {
+            alert(message);
+        }
+    });
+});
