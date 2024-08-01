@@ -41,7 +41,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/users/registration")
-    public ResponseEntity<?> registration(@RequestBody @Valid UserCreateRequest userCreateRequest) {
+    public ResponseEntity<?> registration(@RequestBody UserCreateRequest userCreateRequest) {
         if (userService.isLoginIdExists(userCreateRequest.getLoginId())) {
             return ResponseEntity.badRequest().body("이미 존재하는 아이디입니다. loginId = "+userCreateRequest.getLoginId());
         }
@@ -55,22 +55,41 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
     }
 
+    // ID 중복 체크 - view 용
+    @GetMapping("/users/checkId")
+    public ResponseEntity<String> checkId(@RequestParam String loginId) {
+        if (userService.isLoginIdExists(loginId)) {
+            return ResponseEntity.badRequest().body("이미 존재하는 아이디입니다.");
+        }
+        return ResponseEntity.ok("사용 가능한 아이디입니다.");
+    }
+
+    // 닉네임 중복 체크 - view 용
+    @GetMapping("/users/checkNickname")
+    public ResponseEntity<String> checkNickname(@RequestParam String nickname) {
+        if (userService.isNicknameExists(nickname)) {
+            return ResponseEntity.badRequest().body("이미 존재하는 닉네임입니다.");
+        }
+        return ResponseEntity.ok("사용 가능한 닉네임입니다.");
+    }
+
+
     // 로그인
     @PostMapping("/users/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response,
-                                   @RequestBody @Valid UserLoginRequest userLoginRequest) {
+                                   @RequestBody UserLoginRequest userLoginRequest) {
         try {
             // 사용자 인증
             UserDetails userDetails = userDetailsService.loadUserByUsername(userLoginRequest.getLoginId());
 
             // 사용자 정보가 없을 때 처리
             if (userDetails == null) {
-                return ResponseEntity.badRequest().body("존재하지 않는 아이디입니다. loginId = " + userLoginRequest.getLoginId());
+                return ResponseEntity.badRequest().body("존재하지 않는 아이디입니다.");
             }
 
             // 비밀번호 비교 (암호화된 비밀번호와 입력된 비밀번호 비교)
             if (!encoder.matches(userLoginRequest.getPassword(), userDetails.getPassword())) {
-                return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다. password = "+ userLoginRequest.getPassword());
+                return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
             }
 
             // 인증 객체 생성

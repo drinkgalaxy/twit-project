@@ -1,45 +1,102 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const joinButton = document.querySelector('.join-button');
-    if (joinButton) {
-        joinButton.addEventListener('click', function() {
-            const loginId = document.querySelector('.input-id').value;
-            const nickname = document.querySelector('.input-nickname').value;
-            const password = document.querySelector('.input-password').value;
+// ID 중복 확인 함수
+async function checkId() {
+    const loginId = document.getElementById('loginId').value;
 
-            // 모든 필드 입력 확인
-            if (!loginId || !nickname || !password) {
-                alert('모든 항목을 입력해주세요.');
-                return;
-            }
+    // 아이디가 영어 알파벳만 포함되도록 체크
+    if (!/^[a-zA-Z]{4,20}$/.test(loginId)) {
+        document.getElementById('id-check-result').textContent = '아이디는 4자 이상 20자 이하의 영어 알파벳이어야 합니다.';
+        document.getElementById('id-check-result').className = 'message error';
+        return false;
+    }
 
-            // JSON 데이터 준비
-            var data = {
-                loginId: loginId,
-                password: password,
-                nickname: nickname
-            };
+    if (!loginId) {
+        document.getElementById('id-check-result').textContent = '아이디를 입력해주세요.';
+        document.getElementById('id-check-result').className = 'message error';
+        return false;
+    }
 
-            // 서버로 POST 요청
-            fetch('/api/users/registration', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-                        window.location.href = '/login'; // 로그인 페이지 이동
-                    } else {
-                        throw new Error('회원가입에 실패했습니다. 다시 시도해주세요.')
-                    }
-                })
-                .catch(function (error) {
-                    // 오류 발생 시 캐치
-                    console.error('Error: ', error);
-                    alert(error.message);
-                });
+    const response = await fetch(`/api/users/checkId?loginId=${encodeURIComponent(loginId)}`);
+    const result = await response.text();
+
+    if (response.ok) {
+        document.getElementById('id-check-result').textContent = '사용 가능한 아이디입니다.';
+        document.getElementById('id-check-result').className = 'message success';
+        return true;
+    } else {
+        document.getElementById('id-check-result').textContent = result;
+        document.getElementById('id-check-result').className = 'message error';
+        return false;
+    }
+}
+
+// 닉네임 중복 확인 함수
+async function checkNickname() {
+    const nickname = document.getElementById('nickname').value;
+
+    if (!nickname) {
+        document.getElementById('nickname-check-result').textContent = '닉네임을 입력해주세요.';
+        document.getElementById('nickname-check-result').className = 'message error';
+        return false;
+    }
+
+    const response = await fetch(`/api/users/checkNickname?nickname=${encodeURIComponent(nickname)}`);
+    const result = await response.text();
+
+    if (response.ok) {
+        document.getElementById('nickname-check-result').textContent = '사용 가능한 닉네임입니다.';
+        document.getElementById('nickname-check-result').className = 'message success';
+        return true;
+    } else {
+        document.getElementById('nickname-check-result').textContent = result;
+        document.getElementById('nickname-check-result').className = 'message error';
+        return false;
+    }
+}
+
+// 폼 제출 이벤트 처리
+document.getElementById('join-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const isIdValid = await checkId();
+    const isNicknameValid = await checkNickname();
+    const password = document.getElementById('password').value;
+
+    if (!password) {
+        alert('비밀번호를 입력해주세요.');
+        return;
+    }
+
+    if (password.length < 4 || password.length > 20) {
+        alert('비밀번호는 4자 이상 20자 이하로 입력해주세요.');
+        return;
+    }
+
+    if (isIdValid && isNicknameValid) {
+        const loginId = document.getElementById('loginId').value;
+        const nickname = document.getElementById('nickname').value;
+
+        const formData = {
+            loginId,
+            nickname,
+            password
+        };
+
+        const response = await fetch('/api/users/registration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
         });
+
+        if (response.ok) {
+            alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+            window.location.href = '/login';
+        } else {
+            const error = await response.text();
+            alert('회원가입 실패: ' + error);
+        }
+    } else {
+        alert('아이디와 닉네임 중복 확인을 해주세요.');
     }
 });

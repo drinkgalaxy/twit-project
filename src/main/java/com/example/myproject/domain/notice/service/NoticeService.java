@@ -17,9 +17,8 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    public NoticeResponse findNotice(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId)
-                .orElseThrow(() -> new IllegalArgumentException("noticeId 를 찾을 수 없습니다."));
+    public NoticeResponse findNotice() {
+        Notice notice = noticeRepository.findNotice();
         return notice.toResponse();
     }
 

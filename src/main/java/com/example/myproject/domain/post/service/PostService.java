@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,8 @@ public class PostService {
         sorts.add(Sort.Order.desc("createDate"));
 
         Pageable pageable = PageRequest.of(page, 3);
+
+
         Page<Post> findPosts = postRepository.findAll(pageable);
 
         if (findPosts.isEmpty()) {

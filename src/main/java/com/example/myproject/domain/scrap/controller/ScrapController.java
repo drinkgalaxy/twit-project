@@ -3,7 +3,6 @@ package com.example.myproject.domain.scrap.controller;
 import com.example.myproject.common.security.CustomUserDetails;
 import com.example.myproject.domain.scrap.dto.ScrapListResponse;
 import com.example.myproject.domain.scrap.dto.ScrapMessageResponse;
-import com.example.myproject.domain.scrap.entity.Scrap;
 import com.example.myproject.domain.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
