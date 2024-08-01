@@ -22,7 +22,10 @@ public class CommentResponse {
 
     private boolean use_yn;
 
+    private String createdBy;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
+
 
 }

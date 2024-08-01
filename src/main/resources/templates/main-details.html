@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/fragment/nav.css">
@@ -7,114 +7,76 @@
     <title>메인 상세 페이지</title>
 </head>
 <header class="main-header" th:fragment="top">
-    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick="location.href='/'">
     <div class="header-contents">
-        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
-
-        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
-        <div class="logout-button">로그아웃</div>
-        <!--        <div>회원가입</div>-->
-        <!--        <div>로그인</div>-->
+        <div class="move-button" onclick="location.href='/intro'">사용 방법</div>
+        <div class="LoggedIn" th:if="${isLoggedIn}">
+            <div class="my-button" onclick="location.href='/my-page'">내 정보</div>
+            <div class="logout-button" id="logout-button">로그아웃</div>
+        </div>
+        <div class="LoggedIn" th:if="${!isLoggedIn}">
+            <div class="join-button" onclick="location.href='/join'">회원가입</div>
+            <div class="login-button" onclick="location.href='/login'">로그인</div>
+        </div>
     </div>
 </header>
 
 <body class="body">
-    <div class="box">
-        <div class="main-box">
-            <div class="buttons">
-                <button class="modify-button">수정</button>
-                <button class="delete-button">삭제</button>
+<div class="box">
+    <div class="main-box">
+        <div class="buttons">
+            <button class="modify-button">수정</button>
+            <button class="delete-button">삭제</button>
+        </div>
+        <div class="top">
+            <div class="icon-nickname">
+                <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
+                <div class="nickname" th:text="${post.createdBy}">닉네임</div>
             </div>
-            <div class="top">
-                <div class="icon-nickname">
-                    <img class="user-icon" src="/image/user-icon.png" alt="유저 아이콘">
-                    <div class="nickname">닉네임</div>
-                </div>
-                <div class="title">동물 게시판 프로젝트 공유합니다.</div>
-            </div>
-            <div class="description-heart">
-                <div class="description">간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!</div>
-                <div class="heart">
-                    <img id="heart-image" class="empty-heart" src="/image/empty-heart.png" alt="빈 하트">
-                </div>
-            </div>
-            <hr class="hr">
-            <div class="datetime-viewCount">
-                <div class="datetime">작성일 2024.07.17</div>
-                <div class="viewCount">조회수 10</div>
-            </div>
-            <div class="content">
-                깃허브 주소입니다.<br><br>
-                프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
-                배포 주소<br><br>
-
-                배포 주소배포 주소배포 주소
-                배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
-                배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+            <div class="title" id="post-title" th:text="${post.title}">동물 게시판 프로젝트 공유합니다.</div>
+        </div>
+        <div class="description-heart">
+            <div class="description" id="post-description" th:text="${post.description}">간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!</div>
+            <div class="heart" th:data-scrapped="${isScrapped}">
+                <img id="heart-image"
+                     th:src="${isScrapped ? '/image/filled-heart.png' : '/image/empty-heart.png'}"
+                     alt="하트 이미지">
             </div>
         </div>
-        <button class="feedback-button">피드백 붙이기</button>
-        <div class="feedbacks">
-
-            <div class="feedback-cube">
-                <button class="make-delete">삭제</button>
-                <div class="feedback">
-                    <button class="notice-button">신고하기</button>
-                    <div class="feedback-nickname">닉네임</div>
-                    <div class="feedback-text">
-                        아주 굿이네요<br>
-                        코드가 너무 깔끔하고
-                        아이디어가 좋아요<br>
-                        대박!
-                        아주 굿이네요<br>
-                    </div>
+        <hr class="hr">
+        <div class="datetime-viewCount">
+            <div class="datetime" th:date="${post.createdDate}">작성일 2024.07.17</div>
+            <div class="viewCount" th:text="'조회수 ' + ${post.viewCount}">조회수 10</div>
+        </div>
+        <div class="content" id="post-contents" th:text="${post.contents}">
+            깃허브 주소입니다.<br><br>
+            프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
+            배포 주소<br><br>
+            배포 주소배포 주소배포 주소
+            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
+        </div>
+<!--        <button class="file-upload-button">파일 업로드</button>-->
+    </div>
+    <button class="feedback-button">피드백 붙이기</button>
+    <div class="feedbacks">
+        <!-- 댓글 반복 출력 -->
+        <div th:each="comment : ${commentList}" class="feedback-cube" th:data-comment-id="${comment.id}">
+            <button class="make-delete">삭제</button>
+            <div class="feedback">
+                <button class="notice-button">신고하기</button>
+                <div class="feedback-nickname" th:text="${comment.createdBy}">닉네임</div>
+                <div class="feedback-text" th:text="${comment.comments}">
+                    아주 굿이네요<br>
+                    코드가 너무 깔끔하고
+                    아이디어가 좋아요<br>
+                    대박!
+                    아주 굿이네요<br>
                 </div>
             </div>
-            <div class="feedback-cube">
-                <button class="make-delete">삭제</button>
-                <div class="feedback">
-                    <button class="notice-button">신고하기</button>
-                    <div class="feedback-nickname">닉네임</div>
-                    <div class="feedback-text">
-                        아주 굿이네요<br>
-                        코드가 너무 깔끔하고
-                        아이디어가 좋아요<br>
-                        대박!
-                        아주 굿이네요<br>
-                    </div>
-                </div>
-            </div>
-            <div class="feedback-cube">
-                <button class="make-delete">삭제</button>
-                <div class="feedback">
-                    <button class="notice-button">신고하기</button>
-                    <div class="feedback-nickname">닉네임</div>
-                    <div class="feedback-text">
-                        아주 굿이네요<br>
-                        코드가 너무 깔끔하고
-                        아이디어가 좋아요<br>
-                        대박!
-                        아주 굿이네요<br>
-                    </div>
-                </div>
-            </div>
-            <div class="feedback-cube">
-                <button class="make-delete">삭제</button>
-                <div class="feedback">
-                    <button class="notice-button">신고하기</button>
-                    <div class="feedback-nickname">닉네임</div>
-                    <div class="feedback-text">
-                        아주 굿이네요<br>
-                        코드가 너무 깔끔하고
-                        아이디어가 좋아요<br>
-                        대박!
-                        아주 굿이네요<br>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
+</div>
 </body>
 
 <div class="index">
@@ -132,28 +94,32 @@
     </div>
 </div>
 
-<!--피드백 붙이기 모달창-->
-<div class="modal-overlay"></div>
-<div class="feedback-modal">
-    <form id="b" action="" method="post">
+<!-- 피드백 붙이기 모달창 -->
+<div class="modal-overlay feedback-overlay" style="display: none;"></div>
+<div class="feedback-modal" style="display: none;">
+    <form id="feedback-form">
         <div class="feedback-modal-text">피드백 등록 폼</div>
-        <textarea name="content" id="content" cols="80" rows="15" placeholder="내용을 입력하세요."></textarea>
-        <div class="max-word-length">최대 글자 수 234/500</div>
-        <button class="feedback-upload-button">피드백 붙이기</button>
+        <textarea name="content" id="feedback-content" cols="80" rows="15" placeholder="내용을 입력하세요." required></textarea>
+        <div class="max-word-length" id="max-word-length">최대 글자 수 0/250</div>
+        <button type="submit" class="feedback-upload-button">피드백 붙이기</button>
     </form>
 </div>
 
+<!-- 현재 포스트 ID를 포함한 숨겨진 입력 필드 -->
+<input type="hidden" id="postId" th:value="${post.id}">
+
 <!-- 신고 사유 작성 모달창 -->
-<div class="modal-overlay notice-overlay"></div>
-<div class="notice-modal">
-    <form id="a" action="" method="post">
+<div class="modal-overlay notice-overlay" style="display: none;"></div>
+<div class="notice-modal" style="display: none;">
+    <form id="report-form" action="/report/comments" method="post">
         <div class="notice-modal-text-input-button">
             <div class="notice-modal-text">신고사유를 작성해 주세요 : </div>
-            <input type="text" class="input-notice" name="notice-text" placeholder="내용을 입력해주세요.">
-            <button class="notice-upload-button">등록</button>
+            <input type="text" class="input-notice" name="notice-text" placeholder="내용을 입력해주세요." required>
+            <button type="submit" class="notice-upload-button">등록</button>
         </div>
     </form>
 </div>
 
 <script src="/js/main-details.js"></script>
+<script src="/fragment/nav.js"></script>
 </html>

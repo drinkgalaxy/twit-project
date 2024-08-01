@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +26,12 @@ public class CommentController {
 
     // 댓글 생성
     @PostMapping("/comments/{postId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CommentResponse> createComment(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                          @PathVariable Long postId,
                                                          @RequestBody @Valid CommentCreateRequest request) {
         Long userId = customUserDetails.getUserId();
+        log.info("댓글 내용 = "+ request.getComments());
         Comment response = commentService.save(userId, request, postId);
         return ResponseEntity.ok(response.toResponse());
 
@@ -46,9 +49,10 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/comments/{commentId}")
-    @PreAuthorize("(#customUserDetails.authorities.containsAll(@commentService.getPostAuthorAuth())) or (#customUserDetails.userId == @commentService.getPostAuthorId(#commentId))")
+    @PreAuthorize("isAuthenticated() && ((#customUserDetails.authorities.containsAll(@commentService.getPostAuthorAuth())) or (#customUserDetails.userId == @commentService.getPostAuthorId(#commentId)))")
     public ResponseEntity<Void> deleteComment(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                               @PathVariable Long commentId) {
+
         commentService.deleteComment(commentId);
 
         return ResponseEntity

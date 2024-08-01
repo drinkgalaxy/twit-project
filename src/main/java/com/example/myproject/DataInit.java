@@ -123,6 +123,7 @@ public class DataInit {
                 .userId(savedUser2.getId())
                 .postId(savedPost1.getId())
                 .comments("와 db 설계 진짜 잘하셨네요. 한 눈에 딱 들어와요. 테이블 이름 설정이나 변수 이름 설정도 좋네요.")
+                .createdBy(savedUser2.getNickname())
                 .use_yn(true)
                 .build();
 
@@ -132,6 +133,7 @@ public class DataInit {
                 .userId(savedUser1.getId())
                 .postId(savedPost3.getId())
                 .comments("화면 디자인이 엄청 예쁘네요. 근데 로그인 화면에서 회원가입으로 넘어가는 버튼이 좀 더 컸으면 좋겠어요.")
+                .createdBy(savedUser1.getNickname())
                 .use_yn(true)
                 .build();
 

@@ -2,6 +2,7 @@ package com.example.myproject.domain.notice.entity;
 
 import com.example.myproject.common.base.BaseTimeEntity;
 import com.example.myproject.domain.notice.dto.NoticeResponse;
+import com.example.myproject.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +43,9 @@ public class Notice extends BaseTimeEntity {
                 .build();
     }
 
-    public void update(String noticeContents) {
+    public void update(String noticeContents, Long userId, String lastModifiedBy) {
         this.noticeContents = noticeContents;
+        this.userId = userId;
+        this.lastModifiedBy = lastModifiedBy;
     }
 }

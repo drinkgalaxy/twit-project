@@ -7,20 +7,22 @@
 
 .box {
     width: 1090px;
-    height: 1550px;
     background: #FFFDF3;
     border: 1px solid black;
     border-radius: 10px;
     margin-top: 24px;
     margin-left: -100px;
+    /* height 속성 제거 */
+    /* overflow 속성 추가 */
+    overflow: hidden;
 }
 
+
 .index {
-    display: flex;
+    display: block;
     flex-direction: column;
-    gap: 70px;
     margin-right: -1150px;
-    margin-top: -1355px;
+    margin-top: -1030px;
     margin-bottom: 100px;
 }
 
@@ -33,6 +35,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 70px;
 }
 .index-free {
     width: 136px;
@@ -43,6 +46,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 70px;
 
 }
 .index-worry {
@@ -54,6 +58,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 70px;
 }
 .index-upload {
     width: 195px;
@@ -64,6 +69,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 70px;
 }
 
 .main-box {
@@ -74,6 +80,18 @@
     border-radius: 10px;
     margin-left: 60px;
     margin-top: 50px;
+    overflow: hidden; /* 내용이 넘치면 숨김 */
+}
+
+@media (max-width: 768px) {
+    .main-box {
+        width: 100%;
+        max-height: 600px; /* 화면 크기에 따라 적절히 조정 */
+    }
+
+    .content {
+        overflow: auto; /* 화면이 작아질 경우 스크롤 가능 */
+    }
 }
 
 .buttons {
@@ -125,14 +143,22 @@
 
 .description-heart {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* 아이템들을 양 끝으로 배치 */
+    align-items: center; /* 세로 정렬 */
     margin-top: 10px;
-    margin-left: 30px;
+}
+
+.description {
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
 }
 
 .heart {
-    margin-left: 30px;
+    display: flex;
+    align-items: center; /* 수직 정렬 */
     cursor: pointer;
+    margin-right: 100px;
 }
 
 .hr {
@@ -153,6 +179,8 @@
 
 .content {
     margin: 30px 20px 20px;
+    overflow: auto; /* 내용이 박스를 넘어갈 경우 스크롤이 생깁니다. */
+    box-sizing: border-box; /* padding 및 border를 포함하여 박스 크기 계산 */
 }
 
 .feedback-button {
@@ -165,6 +193,19 @@
     cursor: pointer;
     margin-top: 20px;
     margin-left: 750px;
+}
+
+/* .file-upload-button 스타일 수정 */
+.file-upload-button {
+    background-color: #7BD3EA;
+    width: 166px;
+    height: 55px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 0; /* 왼쪽 여백 제거 */
 }
 
 .make-delete {
@@ -193,10 +234,18 @@
 }
 
 .feedback-cube {
-    flex: 1 1 calc(33.33% - 20px);
-    box-sizing: border-box;
-    margin: 10px 0;
+    padding: 10px; /* 내부 여백 */
+    margin-bottom: 10px; /* 댓글 사이 간격 */
+    border-radius: 8px; /* 둥근 모서리 */
+    overflow: hidden; /* 내용이 넘치면 숨김 */
 }
+
+.feedback-text {
+    word-wrap: break-word; /* 긴 단어나 URL을 줄 바꿈 */
+    overflow-wrap: break-word; /* 긴 단어나 URL을 줄 바꿈 */
+    white-space: pre-wrap; /* 공백 및 줄 바꿈 유지 */
+}
+
 
 .notice-button {
     color: #A8A8A8;
@@ -226,7 +275,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 회색 반투명 */
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
     z-index: 998; /* 모달 창보다 뒤에 배치 */
     display: none; /* 초기에는 숨김 */
 }
@@ -238,13 +287,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
-    background-color: #F6F7C4;
+    background-color: #F6F7C4; /* 밝은 배경색 */
     border: 1px solid black;
     width: 800px;
     height: 700px;
     display: none; /* 초기에는 숨김 */
     box-sizing: border-box;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 추가 */
 }
 
 .feedback-modal-text {
@@ -254,7 +305,7 @@
     font-weight: 600;
 }
 
-#content {
+#feedback-content {
     background-color: #F8F9D2;
     border: 1px solid black;
     resize: none;
@@ -282,32 +333,18 @@
     margin-top: 50px;
 }
 
-/* 신고 사유 작성 모달창 뒤의 회색 배경 */
-.notice-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 회색 반투명 */
-    z-index: 998; /* 모달 창보다 뒤에 배치 */
-    display: none; /* 초기에는 숨김 */
-}
-
-/* 신고 사유 작성 모달창 */
+/* 신고 모달 스타일 */
 .notice-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 999;
-    background-color: #FFFFFF;
-    border: 1px solid black;
-    width: 800px;
-    height: 121px;
-    display: none; /* 초기에는 숨김 */
-    box-sizing: border-box;
+    background: #fff;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    display: none; /* 기본적으로 숨김 */
 }
 
 .notice-modal-text-input-button {
@@ -324,6 +361,7 @@
 .input-notice {
     width: 389px;
     height: 39px;
+    margin-top: 10px;
 }
 
 .notice-upload-button {
@@ -333,4 +371,14 @@
     border-radius: 10px;
 }
 
+#new-description {
+    width: 650px;
+    height: 60px;
+    resize: none;
+}
 
+#new-contents {
+    width: 650px;
+    height: 300px;
+    resize: none;
+}
