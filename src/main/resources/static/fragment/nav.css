@@ -14,3 +14,9 @@
 .move-button {
     cursor: pointer;
 }
+
+.LoggedIn {
+    display: flex;
+    gap: 20px;
+    cursor: pointer;
+}

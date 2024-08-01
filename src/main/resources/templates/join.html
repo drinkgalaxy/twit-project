@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/join.css">
@@ -8,28 +8,27 @@
 <body>
 <div class="contents">
     <div class="box">
-        <img src="/image/medium-logo.png" alt="로그인 페이지 중간 로고 사진">
-        <form id="join-form" action="/api/users/registration" method="post">
+        <img src="/image/medium-logo.png" alt="회원가입 페이지 중간 로고 사진">
+        <form id="join-form">
             <p class="id">아이디</p>
             <div class="div">
-                <input type="text" class="input-id" name="loginId" placeholder="아이디를 입력해주세요.">
-                <button class="check">중복 확인</button>
+                <input type="text" id="loginId" class="input-id" name="loginId" placeholder="아이디를 입력해주세요." required>
+                <button type="button" class="check" onclick="checkId()">중복 확인</button>
             </div>
+            <div class="message" id="id-check-result"></div>
             <p class="nickname">닉네임</p>
             <div class="div">
-                <input type="text" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요.">
-                <button class="check">중복 확인</button>
+                <input type="text" id="nickname" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요." required>
+                <button type="button" class="check" onclick="checkNickname()">중복 확인</button>
             </div>
+            <div class="message" id="nickname-check-result"></div>
             <p class="password">비밀번호</p>
-            <input type="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요.">
-            <button class="join-button" onclick="location.href='main.html'">회원가입</button>
+            <input type="password" id="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요." required>
+            <button type="submit" class="join-button">회원가입</button>
         </form>
-
     </div>
-
-
 </div>
 
-</body>
 <script src="/js/join.js"></script>
+</body>
 </html>

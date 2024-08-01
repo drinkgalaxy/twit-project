@@ -22,11 +22,11 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     // 공지 조회
-    @GetMapping("/notice/{noticeId}")
-    public ResponseEntity<NoticeResponse> showNotice(@PathVariable Long noticeId) {
-        return ResponseEntity
-                .ok(noticeService.findNotice(noticeId));
-    }
+//    @GetMapping("/notice/{noticeId}")
+//    public ResponseEntity<NoticeResponse> showNotice(@PathVariable Long noticeId) {
+//        return ResponseEntity
+//                .ok(noticeService.findNotice(noticeId));
+//    }
 
     // 공지 수정
     @PutMapping("/notice/{noticeId}")

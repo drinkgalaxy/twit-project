@@ -91,3 +91,21 @@
     margin-left: 450px;
     margin-top: 40px;
 }
+
+/* join.css */
+
+/* 메시지 스타일링 */
+.message {
+    font-size: 14px;
+    margin-top: 5px; /* 입력 칸과 메시지 간의 간격 조절 */
+}
+
+/* 오류 메시지 스타일 */
+.message.error {
+    color: red; /* 오류 메시지를 빨간색으로 설정 */
+}
+
+/* 성공 메시지 스타일 */
+.message.success {
+    color: blue; /* 성공 메시지를 파란색으로 설정 */
+}
