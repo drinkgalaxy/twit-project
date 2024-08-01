@@ -80,6 +80,18 @@
     border-radius: 10px;
     margin-left: 60px;
     margin-top: 50px;
+    overflow: hidden; /* 내용이 넘치면 숨김 */
+}
+
+@media (max-width: 768px) {
+    .main-box {
+        width: 100%;
+        max-height: 600px; /* 화면 크기에 따라 적절히 조정 */
+    }
+
+    .content {
+        overflow: auto; /* 화면이 작아질 경우 스크롤 가능 */
+    }
 }
 
 .buttons {
@@ -167,6 +179,8 @@
 
 .content {
     margin: 30px 20px 20px;
+    overflow: auto; /* 내용이 박스를 넘어갈 경우 스크롤이 생깁니다. */
+    box-sizing: border-box; /* padding 및 border를 포함하여 박스 크기 계산 */
 }
 
 .feedback-button {
