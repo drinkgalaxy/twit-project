@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 } else {
                     return response.text().then(errorMessage => {
-                        showAlert(errorMessage);
+                        alert(errorMessage);
                         window.location.reload();
                     });
                 }
@@ -45,10 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// showAlert 함수 정의
-function showAlert(message) {
-    alert(message);
-}
 
 
 // ---------------- 피드백 붙이기
@@ -106,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 } else {
                     return response.text().then(errorMessage => {
-                        showAlert(errorMessage); // 오류 메시지를 알림창으로 띄움
+                        alert(errorMessage);
                     });
                 }
             })
@@ -116,9 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function showAlert(message) {
-        alert(message);
-    }
 });
 
 
@@ -152,75 +145,63 @@ function deleteComment(commentId, feedbackElement) {
                 feedbackElement.remove(); // 삭제 성공 시 댓글 요소 제거
             } else {
                 return response.text().then(errorMessage => {
-                    showAlert(errorMessage); // 오류 메시지를 알림창으로 띄움
+                    alert(errorMessage);
                 });
             }
         })
         .catch(error => {
             console.error('삭제 중 오류 발생:', error);
-            showAlert('서버와의 연결에 문제가 발생했습니다.');
+            alert('서버와의 연결에 문제가 발생했습니다.');
         });
-}
-
-function showAlert(message) {
-    alert(message); // 단순한 알림창
 }
 
 // ---------------- 댓글 신고
-document.addEventListener('DOMContentLoaded', function() {
-    const noticeButtons = document.querySelectorAll('.notice-button');
-    const noticeModal = document.querySelector('.notice-modal');
-    const noticeOverlay = document.querySelector('.notice-overlay');
-    const reportForm = document.getElementById('report-form');
-    const inputNotice = reportForm.querySelector('.input-notice');
+// 모달 창 열기
+function openReportModal() {
+    document.getElementById('notice-overlay').style.display = 'block';
+    document.getElementById('notice-modal').style.display = 'block';
+}
 
-    let currentCommentId = null; // 현재 신고할 댓글 ID 저장
+// 모달 창 닫기
+function closeReportModal() {
+    document.getElementById('notice-overlay').style.display = 'none';
+    document.getElementById('notice-modal').style.display = 'none';
+}
 
-    noticeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            currentCommentId = this.closest('.feedback-cube').getAttribute('data-comment-id');
-            noticeModal.style.display = 'block';
-            noticeOverlay.style.display = 'block';
-        });
-    });
+// 폼 제출 처리
+document.getElementById('report-form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    noticeOverlay.addEventListener('click', function() {
-        noticeModal.style.display = 'none';
-        noticeOverlay.style.display = 'none';
-    });
+    const reportReason = document.getElementById('notice-text').value;
 
-    reportForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+    const postData = {
+        reportReason: reportReason
+    };
 
-        const noticeText = inputNotice.value.trim();
-        if (!noticeText) {
-            alert('신고 사유를 입력해주세요.');
-            return;
-        }
+    const commentId = document.querySelector('.feedback-cube').getAttribute('data-comment-id');
 
-        fetch(`/api/report/comments/${currentCommentId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ noticeText })
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('신고가 접수되었습니다.');
-                    noticeModal.style.display = 'none';
-                    noticeOverlay.style.display = 'none';
-                    window.location.reload();
-                } else response.text().then(errorMessage => {
-                    showAlert(errorMessage); // 오류 메시지를 알림창으로 띄움
+    fetch(`/api/report/comments/${commentId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("신고가 완료되었습니다.");
+                closeReportModal();
+                window.location.reload();
+            } else {
+                return response.text().then(errorMessage => {
+                    alert(errorMessage);
                 });
-            })
-            .catch(error => {
-                console.error('신고 중 오류 발생:', error);
-                alert('서버와의 연결에 문제가 발생했습니다.');
-            });
-    });
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("신고 과정에서 오류가 발생했습니다.");
+        });
 });
 
 
@@ -267,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         } else {
                             return response.text().then(errorMessage => {
-                                showAlert(errorMessage);
+                                alert(errorMessage);
                             });
                         }
                     })
@@ -302,10 +283,5 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
             }
         });
-
-        // showAlert 함수 정의
-        function showAlert(message) {
-            alert(message);
-        }
     });
 });

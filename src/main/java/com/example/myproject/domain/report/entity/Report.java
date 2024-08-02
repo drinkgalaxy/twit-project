@@ -2,6 +2,7 @@ package com.example.myproject.domain.report.entity;
 
 import com.example.myproject.common.base.BaseTimeEntity;
 import com.example.myproject.domain.report.dto.ReportResponse;
+import com.example.myproject.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 

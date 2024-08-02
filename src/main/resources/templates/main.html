@@ -57,19 +57,19 @@
     <!--페이징 버튼 처리 시작-->
     <div class="paging">
         <!-- 이전 페이지 그룹으로 이동 -->
-        <a th:if="${currentPageGroup > 0}" th:href="@{/main(page=${(currentPageGroup - 1) * 5})}">
+        <a th:if="${currentPageGroup > 0}" th:href="@{/(page=${(currentPageGroup - 1) * 5})}">
             <img class="paging-button" src="/image/paging-button-left.png" alt="페이징 아이콘 왼쪽">
         </a>
 
         <div class="paging-number">
             <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
-               th:href="@{/main(page=${i})}"
+               th:href="@{/(page=${i})}"
                th:text="${i + 1}"
                th:classappend="${i == currentPage} ? 'current-page' : ''"></a>
         </div>
 
         <!-- 다음 페이지 그룹으로 이동 -->
-        <a th:if="${(currentPageGroup + 1) * 5 < totalPages}" th:href="@{/main(page=${(currentPageGroup + 1) * 5})}">
+        <a th:if="${(currentPageGroup + 1) * 5 < totalPages}" th:href="@{/(page=${(currentPageGroup + 1) * 5})}">
             <img class="paging-button" src="/image/paging-button-right.png" alt="페이징 아이콘 오른쪽">
         </a>
     </div>

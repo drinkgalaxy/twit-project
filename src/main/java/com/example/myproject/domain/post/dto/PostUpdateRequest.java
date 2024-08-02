@@ -12,5 +12,4 @@ public class PostUpdateRequest {
 
     @Size(max = 250, message = "내용은 250자 이내로 입력해주세요.")
     private String description;
-
 }

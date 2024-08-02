@@ -40,10 +40,10 @@ public class ScrapController {
         return scrapService.hasScrap(postId, userId);
     }
 
-    // 유저 당 스크랩 한 게시글 목록 조회
-    @GetMapping("/post/scraps")
-    public List<ScrapListResponse> findScraps(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Long userId = customUserDetails.getUserId();
-        return scrapService.findScraps(userId);
-    }
+    // 본인이 스크랩 한 게시글 목록 조회
+//    @GetMapping("/post/scraps")
+//    public List<ScrapListResponse> findScraps(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+//        Long userId = customUserDetails.getUserId();
+//        return scrapService.findScraps(userId);
+//    }
 }

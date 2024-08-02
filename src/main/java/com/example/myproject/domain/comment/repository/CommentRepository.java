@@ -29,4 +29,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("update Comment c set c.use_yn = true where c.id = :commentId")
     void ableCommentById(Long commentId);
 
+    @Query("select c from Comment c where c.userId = :userId AND c.use_yn = true")
+    List<Comment> findAllByUserId(Long userId);
 }

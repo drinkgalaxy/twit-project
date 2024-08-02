@@ -126,7 +126,7 @@
 }
 
 .index {
-    display: flex;
+    display: block;
     flex-direction: column;
     gap: 70px;
     margin-right: -1150px;
@@ -143,6 +143,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 60px;
 }
 .index-free {
     width: 136px;
@@ -153,6 +154,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 60px;
 
 }
 .index-worry {
@@ -164,6 +166,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 60px;
 }
 .index-upload {
     width: 195px;

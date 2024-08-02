@@ -46,11 +46,4 @@ public class ScrapService {
                         .orElseThrow(() -> new IllegalArgumentException("찾으려는 스크랩이 존재하지 않습니다."));
         scrapRepository.delete(scrap);
     }
-
-    public List<ScrapListResponse> findScraps(Long userId) {
-        List<Scrap> scraps = scrapRepository.findAllByUserId(userId);
-        return scraps.stream()
-                .map(Scrap::toResponse)
-                .toList();
-    }
 }
