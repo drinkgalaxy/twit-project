@@ -32,26 +32,34 @@ async function checkId() {
 // 닉네임 중복 확인 함수
 async function checkNickname() {
     const nickname = document.getElementById('nickname').value;
+    const nicknameCheckResult = document.getElementById('nickname-check-result');
 
+    // 닉네임 길이 검증
     if (!nickname) {
-        document.getElementById('nickname-check-result').textContent = '닉네임을 입력해주세요.';
-        document.getElementById('nickname-check-result').className = 'message error';
+        nicknameCheckResult.textContent = '닉네임을 입력해주세요.';
+        nicknameCheckResult.className = 'message error';
+        return false;
+    } else if (nickname.length < 1 || nickname.length > 10) {
+        nicknameCheckResult.textContent = '닉네임은 1글자 이상, 10글자 이내로 입력해주세요.';
+        nicknameCheckResult.className = 'message error';
         return false;
     }
 
+    // 닉네임 중복 확인
     const response = await fetch(`/api/users/checkNickname?nickname=${encodeURIComponent(nickname)}`);
     const result = await response.text();
 
     if (response.ok) {
-        document.getElementById('nickname-check-result').textContent = '사용 가능한 닉네임입니다.';
-        document.getElementById('nickname-check-result').className = 'message success';
+        nicknameCheckResult.textContent = '사용 가능한 닉네임입니다.';
+        nicknameCheckResult.className = 'message success';
         return true;
     } else {
-        document.getElementById('nickname-check-result').textContent = result;
-        document.getElementById('nickname-check-result').className = 'message error';
+        nicknameCheckResult.textContent = result;
+        nicknameCheckResult.className = 'message error';
         return false;
     }
 }
+
 
 // 폼 제출 이벤트 처리
 document.getElementById('join-form').addEventListener('submit', async function(event) {

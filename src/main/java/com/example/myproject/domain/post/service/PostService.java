@@ -1,10 +1,16 @@
 package com.example.myproject.domain.post.service;
 
+import com.example.myproject.domain.comment.dto.CommentResponse;
+import com.example.myproject.domain.comment.entity.Comment;
+import com.example.myproject.domain.comment.repository.CommentRepository;
 import com.example.myproject.domain.post.dto.PostCreateRequest;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
 import com.example.myproject.domain.post.repository.PostRepository;
+import com.example.myproject.domain.scrap.dto.ScrapListResponse;
+import com.example.myproject.domain.scrap.entity.Scrap;
+import com.example.myproject.domain.scrap.repository.ScrapRepository;
 import com.example.myproject.domain.user.entity.User;
 import com.example.myproject.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +36,8 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final ScrapRepository scrapRepository;
     private final UserRepository userRepository;
 
     public Post save(PostCreateRequest request, Long userId) {
@@ -42,6 +50,7 @@ public class PostService {
         }
         user.PostItCountUpdate("postUpload");
         log.info("글 업로드 후 포스트잇 개수 = "+ user.getAvailablePostIt());
+        user.exchangedPostItCountUpdate();
         return postRepository.save(request.toEntity(user.getId(), user.getNickname()));
     }
 
@@ -57,14 +66,50 @@ public class PostService {
         sorts.add(Sort.Order.desc("createDate"));
 
         Pageable pageable = PageRequest.of(page, 3);
-
-
         Page<Post> findPosts = postRepository.findAll(pageable);
 
         if (findPosts.isEmpty()) {
             throw new IllegalArgumentException("등록된 게시글이 없습니다.");
         }
         return findPosts;
+    }
+
+    // 본인이 올린 게시글 목록 조회
+    public List<PostResponse> findMyPosts(Long userId) {
+        List<Post> posts = postRepository.findAllByUserId(userId);
+        return posts.stream()
+                .map(Post::toResponse)
+                .toList();
+    }
+
+    // 본인이 댓글 단 게시글 목록 조회
+    public List<PostResponse> findMyComments(Long userId) {
+        List<Comment> comments = commentRepository.findAllByUserId(userId);
+
+        List<Post> list = new ArrayList<>();
+        for (Comment comment : comments) {
+            Long postId = comment.getPostId();
+            list.add(postRepository.findByIdAble(postId));
+        }
+
+        return list.stream()
+                .map(Post::toResponse)
+                .toList();
+    }
+
+    // 본인이 스크랩 한 게시글 목록 조회
+    public List<PostResponse> findScraps(Long userId) {
+        List<Scrap> scraps = scrapRepository.findAllByUserId(userId);
+
+        List<Post> list = new ArrayList<>();
+        for (Scrap scrap : scraps) {
+            Long postId = scrap.getPostId();
+            list.add(postRepository.findByIdAble(postId));
+        }
+
+        return list.stream()
+                .map(Post::toResponse)
+                .toList();
     }
 
 

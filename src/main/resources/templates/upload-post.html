@@ -7,35 +7,38 @@
     <title>글 등록 페이지</title>
 </head>
 <header class="main-header" th:fragment="top">
-    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick="location.href='/'">
     <div class="header-contents">
-        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
-
-        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
-        <div class="logout-button">로그아웃</div>
-        <!--        <div>회원가입</div>-->
-        <!--        <div>로그인</div>-->
+        <div class="move-button" onclick="location.href='/intro'">사용 방법</div>
+        <div class="LoggedIn" th:if="${isLoggedIn}">
+            <div class="my-button" onclick="location.href='/my-page'">내 정보</div>
+            <div class="logout-button" id="logout-button">로그아웃</div>
+        </div>
+        <div class="LoggedIn" th:if="${!isLoggedIn}">
+            <div class="join-button" onclick="location.href='/join'">회원가입</div>
+            <div class="login-button" onclick="location.href='/login'">로그인</div>
+        </div>
     </div>
 </header>
 
 <body class="body">
 <div class="box">
-    <form class="upload-form">
+    <form class="upload-form" id="uploadForm">
         <div class="upload-form-text">글 등록 폼</div>
         <div class="title-description">
             <div class="title-content">
                 <div class="title-text">제목</div>
-                <input type="text" class="input-title" name="title" placeholder="제목을 입력해주세요.">
+                <input type="text" class="input-title" name="title" placeholder="제목을 입력해주세요." required>
             </div>
             <div class="description-content">
                 <div class="description-text">한줄 소개</div>
-                <input type="text" class="input-description" name="description" placeholder="한줄 소개를 입력해주세요.">
+                <input type="text" class="input-description" name="description" placeholder="한줄 소개를 입력해주세요." required>
             </div>
         </div>
         <hr class="hr">
-        <textarea name="content" id="content" cols="100" rows="20" placeholder="내용을 입력하세요." ></textarea>
-        <input type="file" name="file" id="file">
-        <button class="upload-post-button">글 등록하기</button>
+        <textarea name="contents" id="contents" cols="100" rows="20" placeholder="내용을 입력하세요." required></textarea>
+        <!--        <input type="file" name="file" id="file">-->
+        <button type="submit" class="upload-post-button">글 등록하기</button>
     </form>
 </div>
 </body>
@@ -54,5 +57,6 @@
         <div>글 올리기</div>
     </div>
 </div>
-
+<script src="/js/upload-post.js"></script>
+<script src="/fragment/nav.js"></script>
 </html>

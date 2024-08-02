@@ -17,61 +17,6 @@
     overflow: hidden;
 }
 
-
-.index {
-    display: block;
-    flex-direction: column;
-    margin-right: -1150px;
-    margin-top: -1030px;
-    margin-bottom: 100px;
-}
-
-.index-feedback {
-    width: 178px;
-    height: 82px;
-    background: #7BD3EA;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 70px;
-}
-.index-free {
-    width: 136px;
-    height: 82px;
-    background: #A1EEBD;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 70px;
-
-}
-.index-worry {
-    width: 136px;
-    height: 82px;
-    background: #F6F7C4;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 70px;
-}
-.index-upload {
-    width: 195px;
-    height: 82px;
-    background: #F6D6D6;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 70px;
-}
-
 .main-box {
     width: 962px;
     height: 683px;
@@ -381,4 +326,56 @@
     width: 650px;
     height: 300px;
     resize: none;
+}
+
+.index {
+    position: fixed;
+    margin-left: 1150px;
+    margin-top: 330px;
+}
+
+.index-feedback {
+    width: 178px;
+    height: 82px;
+    background: #7BD3EA;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 60px;
+}
+.index-free {
+    width: 136px;
+    height: 82px;
+    background: #A1EEBD;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 60px;
+
+}
+.index-worry {
+    width: 136px;
+    height: 82px;
+    background: #F6F7C4;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 60px;
+}
+.index-upload {
+    width: 195px;
+    height: 82px;
+    background: #F6D6D6;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 60px;
 }

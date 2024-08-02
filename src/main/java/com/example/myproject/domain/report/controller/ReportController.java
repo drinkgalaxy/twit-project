@@ -37,13 +37,6 @@ public class ReportController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 신고 목록 조회
-    @GetMapping("/report/comments")
-    public ResponseEntity<List<ReportResponse>> findReports() {
-        List<ReportResponse> responses = reportService.findReports();
-        return ResponseEntity.ok(responses);
-    }
-
     // 신고 수락
     @PatchMapping("/report/{reportId}/accept")
     @PreAuthorize("#customUserDetails.authorities.containsAll(@postService.getPostAuthorAuth())")
@@ -63,9 +56,4 @@ public class ReportController {
 
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 }

@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('글 업로드시엔 로그인 된 상태여야 업로드가 가능합니다.');
 
             // 두 번째 confirm 창
-            const userConfirmed = confirm('로그인 화면으로 이동하시겠습니까?');
+            const userConfirmed = confirm('이동하시겠습니까?');
             if (userConfirmed) {
-                // 확인을 누르면 로그인 화면으로 이동
-                location.href = '/login';
+                // 확인을 누르면 글 업로드 페이지로 이동
+                location.href = '/upload-post';
             }
         });
     }

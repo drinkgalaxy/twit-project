@@ -32,7 +32,7 @@ public class SecurityConfig {
         // authorizeHttpRequests : 특정한 경로에다가 요청을 허용하거나 거부 설정
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/h2-console/**", "/**").permitAll()
-                .requestMatchers("/my-page", "upload-post").hasAnyRole("ADMIN", "MEMBER")
+                .requestMatchers("/my-page").hasAnyRole("ADMIN", "MEMBER")
                 .requestMatchers("/admin-page").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );

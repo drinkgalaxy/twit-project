@@ -1,5 +1,7 @@
 package com.example.myproject.domain.user.service;
 
+import com.example.myproject.domain.report.entity.Report;
+import com.example.myproject.domain.report.repository.ReportRepository;
 import com.example.myproject.domain.user.dto.UserCreateRequest;
 import com.example.myproject.domain.user.dto.UserResponse;
 import com.example.myproject.domain.user.entity.User;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ReportRepository reportRepository;
     private final BCryptPasswordEncoder encoder;
 
     // 회원가입

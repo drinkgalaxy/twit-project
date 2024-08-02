@@ -15,6 +15,12 @@ public class ReportResponse {
 
     private Long commentId;
 
+    private String reportedComments;
+
+    private Long postId;
+
+    private String ReportedNickname;
+
     private Long userId;
 
     private boolean use_yn;

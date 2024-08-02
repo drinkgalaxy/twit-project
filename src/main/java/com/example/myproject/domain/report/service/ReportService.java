@@ -2,10 +2,15 @@ package com.example.myproject.domain.report.service;
 
 import com.example.myproject.domain.comment.entity.Comment;
 import com.example.myproject.domain.comment.repository.CommentRepository;
+import com.example.myproject.domain.post.entity.Post;
+import com.example.myproject.domain.post.repository.PostRepository;
 import com.example.myproject.domain.report.dto.ReportCreateRequest;
 import com.example.myproject.domain.report.dto.ReportResponse;
 import com.example.myproject.domain.report.entity.Report;
 import com.example.myproject.domain.report.repository.ReportRepository;
+import com.example.myproject.domain.user.dto.UserResponse;
+import com.example.myproject.domain.user.entity.User;
+import com.example.myproject.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,8 @@ public class ReportService {
 
     private final ReportRepository reportRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public ReportResponse create(Long userId, Long commentId, ReportCreateRequest request) {
         Report report = request.toEntity(userId, commentId);
@@ -34,15 +41,24 @@ public class ReportService {
     }
 
     public List<ReportResponse> findReports() {
-        List<Report> findReports = reportRepository.findAllAble();
+        List<Report> reports = reportRepository.findAllAble();
 
-        if (findReports.isEmpty()) {
-            throw new IllegalArgumentException("신고된 리뷰가 없습니다.");
-        }
-
-        return findReports.stream()
-                .map(Report::toResponse)
-                .toList();
+        return reports.stream().map(report -> {
+            Comment comment = commentRepository.findById(report.getCommentId()).orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+            User user = userRepository.findById(comment.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+            Post post = postRepository.findByIdAble(comment.getPostId());
+            return ReportResponse.builder()
+                    .id(report.getId())
+                    .commentId(report.getCommentId())
+                    .reportedComments(comment.getComments())
+                    .userId(report.getUserId())
+                    .postId(post.getId())
+                    .ReportedNickname(user.getNickname())
+                    .use_yn(report.isUse_yn())
+                    .reportReason(report.getReportReason())
+                    .createdDate(report.getCreatedDate())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     public void acceptReport(Long reportId) {

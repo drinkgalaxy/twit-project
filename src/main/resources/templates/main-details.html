@@ -51,10 +51,6 @@
         <div class="content" id="post-contents" th:text="${post.contents}">
             깃허브 주소입니다.<br><br>
             프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
-            배포 주소<br><br>
-            배포 주소배포 주소배포 주소
-            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
-            배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소배포 주소
         </div>
 <!--        <button class="file-upload-button">파일 업로드</button>-->
     </div>
@@ -64,7 +60,7 @@
         <div th:each="comment : ${commentList}" class="feedback-cube" th:data-comment-id="${comment.id}">
             <button class="make-delete">삭제</button>
             <div class="feedback">
-                <button class="notice-button">신고하기</button>
+                <button class="notice-button" onclick="openReportModal()">신고하기</button>
                 <div class="feedback-nickname" th:text="${comment.createdBy}">닉네임</div>
                 <div class="feedback-text" th:text="${comment.comments}">
                     아주 굿이네요<br>
@@ -94,6 +90,7 @@
     </div>
 </div>
 
+
 <!-- 피드백 붙이기 모달창 -->
 <div class="modal-overlay feedback-overlay" style="display: none;"></div>
 <div class="feedback-modal" style="display: none;">
@@ -109,13 +106,13 @@
 <input type="hidden" id="postId" th:value="${post.id}">
 
 <!-- 신고 사유 작성 모달창 -->
-<div class="modal-overlay notice-overlay" style="display: none;"></div>
-<div class="notice-modal" style="display: none;">
-    <form id="report-form" action="/report/comments" method="post">
+<div class="modal-overlay notice-overlay" style="display: none;" id="notice-overlay"></div>
+<div class="notice-modal" style="display: none;" id="notice-modal">
+    <form id="report-form" action="/api/report/comments/{commentId}" method="post">
         <div class="notice-modal-text-input-button">
-            <div class="notice-modal-text">신고사유를 작성해 주세요 : </div>
-            <input type="text" class="input-notice" name="notice-text" placeholder="내용을 입력해주세요." required>
-            <button type="submit" class="notice-upload-button">등록</button>
+            <div class="notice-modal-text">신고사유를 작성해 주세요:</div>
+            <input type="text" id="notice-text" class="input-notice" name="reportReason" placeholder="내용을 입력해주세요." required>
+            <button type="submit" id="report-submit-button" class="notice-upload-button">등록</button>
         </div>
     </form>
 </div>

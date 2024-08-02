@@ -30,7 +30,7 @@ public class PostController {
     // 게시글 생성
     // TODO 파일 업로드 기능 추가
     @PostMapping("/posts")
-    // @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                    @RequestBody @Valid PostCreateRequest request) {
         Long userId = customUserDetails.getUserId();

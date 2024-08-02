@@ -6,24 +6,35 @@
 }
 
 .box {
-    width: 825px;
+    width: 925px;
     height: 316px;
     background: #FFFFFF;
     border: 1px solid black;
     border-radius: 10px;
     margin-top: 20px;
+    padding: 20px;
 }
 
 .hello-text {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .user-icon-data {
     display: flex;
     justify-content: center;
     gap: 50px;
+    margin-top: 20px;
+}
+
+.user-icon {
+    width: 100px;  /* 고정 크기 */
+    height: 100px;  /* 고정 크기 */
+    object-fit: cover;  /* 이미지 비율 유지 */
+}
+
+.move-data {
     margin-top: 40px;
 }
 
@@ -33,14 +44,11 @@
     margin-bottom: 20px;
 }
 
-.nickname-change-button {
-    background-color: #F6F7C4;
-    width: 100px;
-    height: 31px;
-    font-size: 15px;
-    border-radius: 10px;
-    border: 1px solid black;
-    cursor: pointer;
+.nickname-and-change, .password-and-change {
+    display: flex;
+    align-items: center;
+    gap: 5px;  /* 요소 간격 */
+    margin-top: 10px;
 }
 
 .nickname-change-button {
@@ -55,34 +63,39 @@
 
 .password-change-button {
     background-color: #7BD3EA;
-    width: 130px;
+    width: 120px;
     height: 31px;
     font-size: 15px;
     border-radius: 10px;
     border: 1px solid black;
     cursor: pointer;
-    margin-top: 20px;
-    margin-left: -75px;
+
 }
 
-.nickname-check {
-    background-color: #F6D6D6;
+.input-nickname, .input-password {
+    width: 200px;
+    height: 31px;
+    border-radius: 10px;
+    border: 1px solid black;
+    display: none; /* 기본적으로 숨기기 */
+}
+
+.nickname-check, .nickname-done, .password-done {
     width: 100px;
     height: 31px;
     font-size: 15px;
     border-radius: 10px;
     border: 1px solid black;
     cursor: pointer;
+    display: none; /* 기본적으로 숨기기 */
 }
 
-.nickname-done {
+.nickname-check {
+    background-color: #F6D6D6;
+}
+
+.nickname-done, .password-done {
     background-color: #A1EEBD;
-    width: 62px;
-    height: 31px;
-    font-size: 15px;
-    border-radius: 10px;
-    border: 1px solid black;
-    cursor: pointer;
 }
 
 .move-to-admin-page {
@@ -120,6 +133,7 @@
 .all-postIt {
     font-size: 20px;
 }
+
 
 .available-postIt {
     font-size: 30px;

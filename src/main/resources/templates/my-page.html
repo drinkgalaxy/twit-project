@@ -8,47 +8,50 @@
 </head>
 
 <header class="main-header" th:fragment="top">
-    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick=location.href='main.html'>
+    <img class="logo" src="/image/small-logo.png" alt="공통 헤더 작은 로고 사진" onclick="location.href='/'">
     <div class="header-contents">
-        <div class="move-button" onclick=location.href='intro.html'>사용 방법</div>
-
-        <div class="move-button" onclick=location.href='my-page.html'>내 정보</div>
-        <div class="logout-button">로그아웃</div>
-        <!--        <div>회원가입</div>-->
-        <!--        <div>로그인</div>-->
+        <div class="move-button" onclick="location.href='/intro'">사용 방법</div>
+        <div class="LoggedIn" th:if="${isLoggedIn}">
+            <div class="my-button" onclick="location.href='/my-page'">내 정보</div>
+            <div class="logout-button" id="logout-button">로그아웃</div>
+        </div>
+        <div class="LoggedIn" th:if="${!isLoggedIn}">
+            <div class="join-button" onclick="location.href='/join'">회원가입</div>
+            <div class="login-button" onclick="location.href='/login'">로그인</div>
+        </div>
     </div>
 </header>
 
 <body class="body">
-    <div class="box">
-        <div class="hello-text">000님 안녕하세요!</div>
+    <div class="box" th:data-user-id="${user.id}">
+        <div class="hello-text" th:text="${user.nickname} + '님 안녕하세요!'">000님 안녕하세요!</div>
         <div class="user-icon-data">
             <img class="user-icon" src="/image/mypage-user-icon.png" alt="마이페이지 유저 아이콘">
-<!--            form-->
-            <div id="" action="" method="post">
-                <div class="id">아이디 : userId</div>
+            <div class="move-data">
+                <div class="id" th:text="'아이디 : ' + ${user.loginId}">아이디 : userId</div>
                 <div class="nickname-and-change">
-                    <button class="nickname-change-button">닉네임 변경</button>
-                    <input type="text" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요.">
-                    <button class="nickname-check">중복확인</button>
-                    <button class="nickname-done">완료</button>
+                    <button type="button" class="nickname-change-button">닉네임 변경</button>
+                    <input type="text" class="input-nickname" name="nickname" placeholder="닉네임을 입력해주세요." style="display: none;">
+                    <button type="button" class="nickname-check" style="display: none;">중복확인</button>
+                    <button type="button" class="nickname-done" style="display: none;">완료</button>
+                    <div class="nickname-message" style="display: none;"></div>
                 </div>
                 <div class="password-and-change">
-                    <button class="password-change-button">비밀번호 변경</button>
-                    <input type="text" class="input-password" name="password" placeholder="비밀번호를 입력해주세요.">
-                    <button class="nickname-done">완료</button>
+                    <button type="button" class="password-change-button" onclick="togglePasswordChange()">비밀번호 변경</button>
+                    <input type="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요." style="display: none;">
+                    <button type="button" class="password-done" style="display: none;" onclick="changePassword()">완료</button>
                 </div>
             </div>
         </div>
     </div>
-    <button class="move-to-admin-page">관리자 회원관리 페이지로 이동</button>
+    <button th:if="${isAdmin}" class="move-to-admin-page" onclick="location.href='/admin-page'">관리자 회원관리 페이지로 이동</button>
     <hr class="hr">
     <div class="image-and-text">
         <img class="glass" src="/image/glass.png" alt="마이페이지 구슬">
         <div class="glass-data">
-            <div class="all-postIt">전체 20개</div>
-            <div class="available-postIt">사용 가능 10개</div>
-            <div class="changed-post">교환 글 1개</div>
+            <div class="all-postIt" th:text="'전체 ' + ${user.totalPostIt} + '개'">전체 20개</div>
+            <div class="available-postIt" th:text="'사용 가능 ' + ${user.availablePostIt} + '개'">사용 가능 10개</div>
+            <div class="changed-post" th:text="'교환 글 ' + ${user.exchangedPostIt} + '개'">교환 글 1개</div>
             <div class="change-text">포스트잇 10개당 글 1개 교환 가능</div>
         </div>
     </div>
@@ -56,116 +59,43 @@
     <div class="posts">
         <div class="my-uploads">
             <div class="my-upload-text">내가 올린 글</div>
-            <div class="my-upload-box">
-                <button class="my-upload-move-button">이동</button>
-                <div class="my-upload-title">
-                    이건 프로젝트입니다. 입니다 입니다
+            <div class="my-upload-box" th:each="post : ${myPostList}">
+                <button class="my-upload-move-button" th:onclick="'location.href=\'/posts/' + ${post.id} + '\''">이동</button>
+                <div class="my-upload-title" th:text="${post.title}">
+                    이건 프로젝트입니다.
                 </div>
-                <div class="my-upload-description">
-                    이건 한줄소개 입니다. 입니다입니다입니다
-                </div>
-            </div>
-            <div class="my-upload-box">
-                <button class="my-upload-move-button">이동</button>
-                <div class="my-upload-title">
-                    이건 프로젝트입니다. 입니다 입니다
-                </div>
-                <div class="my-upload-description">
-                    이건 한줄소개 입니다. 입니다입니다입니다
-                </div>
-            </div>
-            <div class="my-upload-box">
-                <button class="my-upload-move-button">이동</button>
-                <div class="my-upload-title">
-                    이건 프로젝트입니다. 입니다 입니다
-                </div>
-                <div class="my-upload-description">
-                    이건 한줄소개 입니다. 입니다입니다입니다
-                </div>
-            </div>
-            <div class="my-upload-box">
-                <button class="my-upload-move-button">이동</button>
-                <div class="my-upload-title">
-                    이건 프로젝트입니다. 입니다 입니다
-                </div>
-                <div class="my-upload-description">
-                    이건 한줄소개 입니다. 입니다입니다입니다
+                <div class="my-upload-description" th:text="${post.description}">
+                    이건 한줄소개 입니다.
                 </div>
             </div>
         </div>
         <div class="my-feedbacks">
             <div class="my-feedback-text">내가 피드백한 글</div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
+            <div class="my-feedback-box" th:each="post : ${myCommentList}">
+                <button class="my-feedback-move-button" th:onclick="'location.href=\'/posts/' + ${post.id} + '\''">이동</button>
+                <div class="my-feedback-title" th:text="${post.title}">
                     동물 게시판 프로젝트 공유합니다.
                 </div>
-                <div class="my-feedback-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
-                    제목
-                </div>
-                <div class="my-feedback-description">
-                    한줄소개 내용 내용내용내용내용내용내용내용내용내용
-                </div>
-            </div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="my-feedback-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="my-feedback-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="my-feedback-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
-                </div>
-            </div>
-            <div class="my-feedback-box">
-                <button class="my-feedback-move-button">이동</button>
-                <div class="my-feedback-title">
-                    동물 게시판 프로젝트 공유합니다.
-                </div>
-                <div class="my-feedback-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
+                <div class="my-feedback-description" th:text="${post.description}">
+                    간단한 CRUD 만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
                 </div>
             </div>
         </div>
         <div class="my-scraps">
             <div class="my-scrap-text">내가 스크랩한 글</div>
-            <div class="my-scrap-box">
-                <button class="my-scrap-move-button">이동</button>
-                <div class="my-scrap-title">
+            <div class="my-scrap-box" th:each="post : ${myScrapList}">
+                <button class="my-scrap-move-button" th:onclick="'location.href=\'/posts/' + ${post.id} + '\''">이동</button>
+                <div class="my-scrap-title" th:text="${post.title}">
                     동물 게시판 프로젝트 공유합니다.
                 </div>
-                <div class="my-scrap-description">
-                    간단한 CRUD만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
+                <div class="my-scrap-description" th:text="${post.description}">
+                    간단한 CRUD 만 구현해서 만들어봤습니다. 처음 만들어서 많이 부족하니 피드백 부탁드려요!
                 </div>
             </div>
-
         </div>
-
     </div>
 
-
 </body>
+<script src="/js/my-page.js"></script>
+<script src="/fragment/nav.js"></script>
 </html>
