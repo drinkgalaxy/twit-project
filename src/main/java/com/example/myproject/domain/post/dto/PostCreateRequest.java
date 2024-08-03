@@ -1,12 +1,12 @@
 package com.example.myproject.domain.post.dto;
 
 import com.example.myproject.domain.post.entity.Post;
-import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-@Getter
+@Data
 public class PostCreateRequest {
 
     private String title;
@@ -18,7 +18,7 @@ public class PostCreateRequest {
     private String contents;
 
 
-    public Post toEntity(Long userId, String nickname) {
+    public Post toEntity(Long userId, String nickname, String originalFileName) {
         return Post.builder()
                 .userId(userId)
                 .title(title)
@@ -28,6 +28,7 @@ public class PostCreateRequest {
                 .use_yn(true)
                 .createdBy(nickname)
                 .lastModifiedBy(nickname)
+                .fileName(originalFileName)
                 .build();
     }
 }

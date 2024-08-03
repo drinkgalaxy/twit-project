@@ -210,7 +210,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const modifyButton = document.querySelector('.modify-button');
     const deleteButton = document.querySelector('.delete-button');
     const postId = document.getElementById('postId').value;
+    const fileUpload = document.getElementById('fileUpload');
+    const uploadedFile = document.getElementById('uploadedFile');
 
+    // 초기 상태 설정
+    fileUpload.style.display = 'none';
+    uploadedFile.style.display = 'block';
+
+    // 수정 버튼 클릭 시 동작
     modifyButton.addEventListener('click', function () {
         const descriptionElement = document.getElementById('post-description');
         const contentsElement = document.getElementById('post-contents');
@@ -221,24 +228,27 @@ document.addEventListener('DOMContentLoaded', function() {
         descriptionElement.innerHTML = `<textarea id="new-description">${currentDescription}</textarea>`;
         contentsElement.innerHTML = `<textarea id="new-contents">${currentContents}</textarea>`;
 
+        uploadedFile.style.display = 'none';
+        fileUpload.style.display = 'block';
+
         modifyButton.innerText = '저장';
         modifyButton.removeEventListener('click', arguments.callee);
         modifyButton.addEventListener('click', function () {
             const newDescription = document.getElementById('new-description').value;
             const newContents = document.getElementById('new-contents').value;
+            const file = document.getElementById('file').files[0];
 
             if (newDescription && newContents) {
-                const requestBody = {
-                    description: newDescription,
-                    contents: newContents
-                };
+                const formData = new FormData();
+                formData.append('description', newDescription);
+                formData.append('contents', newContents);
+                if (file) {
+                    formData.append('file', file);
+                }
 
                 fetch(`/api/posts/${postId}`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
+                    body: formData
                 })
                     .then(response => {
                         if (response.ok) {
@@ -260,6 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // 기존 삭제 버튼 클릭 이벤트 추가
         deleteButton.addEventListener('click', function () {
             if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
                 fetch(`/api/posts/${postId}`, {
@@ -274,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             window.location.href = '/'; // 삭제 후 메인 페이지로 이동
                         } else {
                             return response.text().then(errorMessage => {
-                                showAlert(errorMessage);
+                                alert(errorMessage);
                             });
                         }
                     })
@@ -284,4 +295,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // 저장 버튼 클릭 시 동작
+    document.getElementById('save-button').addEventListener('click', function() {
+        uploadedFile.style.display = 'block';
+        fileUpload.style.display = 'none';
+    });
 });
+
+
+// -------------- 파일 다운로드
+
+
+
+

@@ -5,8 +5,6 @@ import com.example.myproject.domain.post.dto.PostResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -34,9 +32,11 @@ public class Post extends BaseTimeEntity {
 
     private String lastModifiedBy;
 
+    private String fileName;
+
     @Builder
     public Post(Long id, Long userId, String title, String contents, String description, Long viewCount
-            , boolean use_yn, String createdBy, String lastModifiedBy) {
+            , boolean use_yn, String createdBy, String lastModifiedBy, String fileName) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -46,6 +46,7 @@ public class Post extends BaseTimeEntity {
         this.use_yn = use_yn;
         this.createdBy = createdBy;
         this.lastModifiedBy = lastModifiedBy;
+        this.fileName = fileName;
     }
 
     // Post 객체를 받아서 PostResponse 를 생성
@@ -61,17 +62,20 @@ public class Post extends BaseTimeEntity {
                 .use_yn(use_yn)
                 .createdBy(createdBy)
                 .lastModifiedBy(lastModifiedBy)
+                .fileName(fileName)
                 .createdDate(getCreatedDate())
                 .lastModifiedDate(getLastModifiedDate())
                 .build();
     }
 
-    public void update(String contents, String description) {
+    public void update(String contents, String description, String originalFileName) {
         this.contents = contents;
         this.description = description;
+        this.fileName = originalFileName;
     }
 
     public void viewCountUpdate() {
         this.viewCount++;
     }
+
 }

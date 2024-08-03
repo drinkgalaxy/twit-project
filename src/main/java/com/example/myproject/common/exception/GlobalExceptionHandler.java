@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     // valid 에러를 잡아줌
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> validationExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         String errorMessage = ex.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -37,6 +37,8 @@ public class GlobalExceptionHandler {
         errors.put("error", "권한이 없습니다.");
         return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
     }
+
+
 
 
 }

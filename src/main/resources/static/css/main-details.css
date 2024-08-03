@@ -324,7 +324,7 @@
 
 #new-contents {
     width: 650px;
-    height: 300px;
+    height: 150px;
     resize: none;
 }
 
@@ -379,3 +379,15 @@
     cursor: pointer;
     margin-bottom: 60px;
 }
+
+.download-button {
+    width: 114px;
+    height: 33px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #7BD3EA;
+    border: 2px solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+

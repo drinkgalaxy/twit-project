@@ -1,18 +1,20 @@
 package com.example.myproject.domain.post.service;
 
-import com.example.myproject.domain.comment.dto.CommentResponse;
 import com.example.myproject.domain.comment.entity.Comment;
 import com.example.myproject.domain.comment.repository.CommentRepository;
+import com.example.myproject.domain.multipart.entity.Multipart;
+import com.example.myproject.domain.multipart.repository.MultipartRepository;
+import com.example.myproject.domain.multipart.service.LocalFileStorageService;
 import com.example.myproject.domain.post.dto.PostCreateRequest;
 import com.example.myproject.domain.post.dto.PostResponse;
 import com.example.myproject.domain.post.dto.PostUpdateRequest;
 import com.example.myproject.domain.post.entity.Post;
 import com.example.myproject.domain.post.repository.PostRepository;
-import com.example.myproject.domain.scrap.dto.ScrapListResponse;
 import com.example.myproject.domain.scrap.entity.Scrap;
 import com.example.myproject.domain.scrap.repository.ScrapRepository;
 import com.example.myproject.domain.user.entity.User;
 import com.example.myproject.domain.user.repository.UserRepository;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,11 +25,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,10 +42,18 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final ScrapRepository scrapRepository;
     private final UserRepository userRepository;
+    private final LocalFileStorageService localFileStorageService;
+    private final MultipartRepository multipartRepository;
 
-    public Post save(PostCreateRequest request, Long userId) {
+    public Post save(PostCreateRequest request, Long userId, MultipartFile file) throws IOException {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("not found type id"));
+
+        // 이미지 업로드
+        Multipart multipart = localFileStorageService.saveFile(file);
+        multipartRepository.save(multipart);
+
         log.info("글 업로드 전 포스트잇 개수 = "+ user.getAvailablePostIt());
         if (user.getAvailablePostIt() < 10) {
             throw new IllegalArgumentException("포스트잇의 개수가 부족합니다. 현재 포스트잇 개수 = "+ user.getAvailablePostIt() + "\n"
@@ -51,7 +62,9 @@ public class PostService {
         user.PostItCountUpdate("postUpload");
         log.info("글 업로드 후 포스트잇 개수 = "+ user.getAvailablePostIt());
         user.exchangedPostItCountUpdate();
-        return postRepository.save(request.toEntity(user.getId(), user.getNickname()));
+
+        // postRepository 에 filename 도 같이 저장
+        return postRepository.save(request.toEntity(user.getId(), user.getNickname(), multipart.getOriginalFileName()));
     }
 
     public PostResponse findOnePost(Long postId) {
@@ -113,10 +126,15 @@ public class PostService {
     }
 
 
-    public Post update(Long postId, PostUpdateRequest request) {
+    public Post update(Long postId, PostUpdateRequest request, MultipartFile file) throws IOException {
+        // 이미지 업로드
+        Multipart multipart = localFileStorageService.saveFile(file);
+        multipartRepository.save(multipart);
+
         Post post = postRepository.findByIdAble(postId);
 
-        post.update(request.getContents(), request.getDescription());
+        // postRepository 에 filename 도 같이 업데이트
+        post.update(request.getContents(), request.getDescription(), multipart.getOriginalFileName());
         return post;
     }
 

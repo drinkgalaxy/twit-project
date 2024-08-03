@@ -23,7 +23,7 @@
 
 <body class="body">
 <div class="box">
-    <form class="upload-form" id="uploadForm">
+    <form class="upload-form" id="uploadForm" enctype="multipart/form-data">
         <div class="upload-form-text">글 등록 폼</div>
         <div class="title-description">
             <div class="title-content">
@@ -37,9 +37,10 @@
         </div>
         <hr class="hr">
         <textarea name="contents" id="contents" cols="100" rows="20" placeholder="내용을 입력하세요." required></textarea>
-        <!--        <input type="file" name="file" id="file">-->
+        <input type="file" id="file" name="file">
         <button type="submit" class="upload-post-button">글 등록하기</button>
     </form>
+
 </div>
 </body>
 
