@@ -380,7 +380,7 @@
     margin-bottom: 60px;
 }
 
-.download-button {
+input[type=file]::file-selector-button {
     width: 114px;
     height: 33px;
     font-size: 15px;
@@ -389,5 +389,7 @@
     border: 2px solid;
     border-radius: 10px;
     cursor: pointer;
+    margin-top: 20px;
 }
+
 
