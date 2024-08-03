@@ -1,36 +1,33 @@
 document.getElementById('uploadForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // 폼 제출 기본 동작 방지
 
-    const title = document.querySelector('input[name="title"]').value;
-    const description = document.querySelector('input[name="description"]').value;
-    const contents = document.querySelector('textarea[name="contents"]').value;
+    const formData = new FormData(this); // FormData 객체 생성
 
-    const postData = {
-        title: title,
-        description: description,
-        contents: contents
-    };
+    // 디버깅을 위해 FormData 내용 로그 출력
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+    }
 
     fetch('/api/posts', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
+        body: formData // FormData 객체를 요청 본문에 포함
     })
         .then(response => {
             if (response.ok) {
-                console.log('Success:', response.json());
-                alert("게시글 업로드가 완료되었습니다.");
-                location.href = '/';
+                return response.json(); // JSON 응답을 파싱
             } else {
                 return response.text().then(errorMessage => {
-                    alert(errorMessage);
+                    throw new Error(errorMessage);
                 });
             }
         })
+        .then(data => {
+            console.log('Success:', data);
+            alert("게시글 업로드가 완료되었습니다.");
+            location.href = '/'; // 성공 후 페이지 이동
+        })
         .catch((error) => {
             console.error('Error:', error);
-            alert("게시글 업로드가 실패했습니다.")
+            alert("게시글 업로드가 실패했습니다.");
         });
 });

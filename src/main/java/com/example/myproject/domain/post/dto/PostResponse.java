@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +31,8 @@ public class PostResponse {
     private String createdBy;
 
     private String lastModifiedBy;
+
+    private String fileName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdDate;

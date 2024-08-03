@@ -52,7 +52,16 @@
             깃허브 주소입니다.<br><br>
             프로젝트는 이렇게 ~~~ 진행했습니다.<br><br>
         </div>
-<!--        <button class="file-upload-button">파일 업로드</button>-->
+        <div id="uploadedFile" class="uploadedFile hidden">
+            <a th:if="${post.fileName != null}"
+               th:href="@{'/api/file/download'(file=${post.fileName})}"
+               download="다운로드" class="download-button">첨부파일 다운로드</a>
+        </div>
+        <!-- 수정 시 파일 업로드 필드 -->
+        <div id="fileUpload" class="file-upload hidden">
+            <input type="file" id="file" name="file">
+        </div>
+
     </div>
     <button class="feedback-button">피드백 붙이기</button>
     <div class="feedbacks">
