@@ -1,6 +1,7 @@
 package com.example.myproject.domain.post.controller;
 
 import com.example.myproject.common.security.CustomUserDetails;
+import com.example.myproject.domain.multipart.repository.MultipartRepository;
 import com.example.myproject.domain.multipart.service.LocalFileStorageService;
 import com.example.myproject.domain.multipart.entity.Multipart;
 import com.example.myproject.domain.post.dto.PostCreateRequest;
@@ -28,6 +29,8 @@ import java.io.IOException;
 public class PostController {
 
     private final PostService postService;
+    private final LocalFileStorageService localFileStorageService;
+    private final MultipartRepository multipartRepository;
 
     // 게시글 생성
     @PostMapping("/posts")
@@ -38,7 +41,10 @@ public class PostController {
         Long userId = customUserDetails.getUserId();
 
         try {
-            Post post = postService.save(request, userId, file);
+            Post post = postService.save(request, userId, file.getOriginalFilename());
+            // 이미지 업로드
+            Multipart multipart = localFileStorageService.saveFile(post.toResponse().getId(), file);
+            multipartRepository.save(multipart);
             return ResponseEntity.status(HttpStatus.CREATED).body(post.toResponse());
         } catch (IllegalArgumentException | IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

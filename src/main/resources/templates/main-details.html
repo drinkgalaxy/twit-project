@@ -54,7 +54,7 @@
         </div>
         <div id="uploadedFile" class="uploadedFile hidden">
             <a th:if="${post.fileName != null}"
-               th:href="@{'/api/file/download'(file=${post.fileName})}"
+               th:href="@{'/api/file/download/' + ${post.id} + '/' + ${post.fileName}}"
                download="다운로드" class="download-button">첨부파일 다운로드</a>
         </div>
         <!-- 수정 시 파일 업로드 필드 -->

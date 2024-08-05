@@ -17,13 +17,16 @@ public class Multipart extends BaseTimeEntity {
     @Column(name = "multipart_id")
     private Long id;
 
+    private Long postId;
+
     private String originalFileName;
 
     private String storedFileName;
 
 
     @Builder
-    public Multipart(String originalFilename, String storedFilename) {
+    public Multipart(Long postId, String originalFilename, String storedFilename) {
+        this.postId = postId;
         this.originalFileName = originalFilename;
         this.storedFileName = storedFilename;
     }
@@ -32,6 +35,7 @@ public class Multipart extends BaseTimeEntity {
     public MultipartResponse toResponse() {
         return MultipartResponse.builder()
                 .id(id)
+                .postId(postId)
                 .originalFileName(originalFileName)
                 .storedFileName(storedFileName)
                 .build();

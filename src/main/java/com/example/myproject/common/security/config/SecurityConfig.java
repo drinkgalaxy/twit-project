@@ -1,5 +1,6 @@
 package com.example.myproject.common.security.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
@@ -36,8 +39,15 @@ public class SecurityConfig {
                 .requestMatchers("/admin-page").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
-//        // CSRF 보호 비활성화 및 프레임 내 접근 허용
-        http.csrf(csrf -> csrf.disable());
+
+        //HTTP Basic 인증 방식 disable
+        http
+                .httpBasic((auth) -> auth.disable());
+
+
+        //csrf disable
+        http
+                .csrf((auth) -> auth.disable());
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         return http.build();

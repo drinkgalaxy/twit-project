@@ -137,3 +137,28 @@ async function changePassword() {
         alert('비밀번호 변경 중 오류가 발생했습니다.');
     }
 }
+
+// ------- 회원 탈퇴
+function deleteUser() {
+    if (confirm('정말로 회원 탈퇴를 하시겠습니까?')) {
+        fetch('/api/users/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include' // 쿠키를 포함하여 요청
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('회원 탈퇴가 완료되었습니다.');
+                    window.location.href = '/';
+                } else {
+                    alert('회원 탈퇴에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('회원 탈퇴 중 오류가 발생했습니다.');
+            });
+    }
+}

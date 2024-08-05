@@ -18,8 +18,6 @@ import java.util.UUID;
 @Slf4j
 public class LocalFileStorageService {
 
-    private final PostRepository postRepository;
-
     @Value("${file.dir}")
     private String fileDir;
 
@@ -28,14 +26,14 @@ public class LocalFileStorageService {
     }
 
     // 멀티파트 파일을 서버에 저장한다.
-    public Multipart saveFile(MultipartFile file) throws IOException{
+    public Multipart saveFile(Long postId, MultipartFile file) throws IOException{
         if (file.isEmpty()) {
             return null;
         }
         String originalFilename = file.getOriginalFilename();
         String storedFilename = createStoreFileName(originalFilename);
         file.transferTo(new File(getFullPath(storedFilename)));
-        return new Multipart(originalFilename, storedFilename);
+        return new Multipart(postId, originalFilename, storedFilename);
     }
 
     // 서버 내부에서 관리하는 파일명은 유일한 UUID 이름을 생성해서 충돌하지 않도록 한다.

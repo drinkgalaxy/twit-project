@@ -45,14 +45,10 @@ public class PostService {
     private final LocalFileStorageService localFileStorageService;
     private final MultipartRepository multipartRepository;
 
-    public Post save(PostCreateRequest request, Long userId, MultipartFile file) throws IOException {
+    public Post save(PostCreateRequest request, Long userId, String fileName) throws IOException {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("not found type id"));
-
-        // 이미지 업로드
-        Multipart multipart = localFileStorageService.saveFile(file);
-        multipartRepository.save(multipart);
 
         log.info("글 업로드 전 포스트잇 개수 = "+ user.getAvailablePostIt());
         if (user.getAvailablePostIt() < 10) {
@@ -64,7 +60,7 @@ public class PostService {
         user.exchangedPostItCountUpdate();
 
         // postRepository 에 filename 도 같이 저장
-        return postRepository.save(request.toEntity(user.getId(), user.getNickname(), multipart.getOriginalFileName()));
+        return postRepository.save(request.toEntity(user.getId(), user.getNickname(), fileName));
     }
 
     public PostResponse findOnePost(Long postId) {
@@ -128,7 +124,7 @@ public class PostService {
 
     public Post update(Long postId, PostUpdateRequest request, MultipartFile file) throws IOException {
         // 이미지 업로드
-        Multipart multipart = localFileStorageService.saveFile(file);
+        Multipart multipart = localFileStorageService.saveFile(postId, file);
         multipartRepository.save(multipart);
 
         Post post = postRepository.findByIdAble(postId);

@@ -12,6 +12,8 @@ public class MultipartResponse {
 
     private Long id;
 
+    private Long postId;
+
     private String originalFileName;
 
     private String storedFileName;
