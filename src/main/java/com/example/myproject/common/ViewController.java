@@ -3,6 +3,9 @@ package com.example.myproject.common;
 import com.example.myproject.common.security.CustomUserDetails;
 import com.example.myproject.domain.comment.entity.Comment;
 import com.example.myproject.domain.comment.service.CommentService;
+import com.example.myproject.domain.multipart.entity.Multipart;
+import com.example.myproject.domain.multipart.repository.MultipartRepository;
+import com.example.myproject.domain.multipart.service.LocalFileStorageService;
 import com.example.myproject.domain.notice.dto.NoticeResponse;
 import com.example.myproject.domain.notice.service.NoticeService;
 import com.example.myproject.domain.post.dto.PostResponse;
@@ -15,6 +18,7 @@ import com.example.myproject.domain.user.dto.UserResponse;
 import com.example.myproject.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,7 +26,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriUtils;
 
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -93,7 +100,7 @@ public class ViewController {
     // 게시글 상세 페이지
     @GetMapping("/posts/{postId}")
     public String mainDetails(@PathVariable Long postId, Model model,
-                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+                              @AuthenticationPrincipal CustomUserDetails customUserDetails) throws MalformedURLException {
         
         // 로그인 여부 확인
         boolean isLoggedIn = (customUserDetails != null);
@@ -114,7 +121,7 @@ public class ViewController {
             isScrapped = scrapService.hasScrap(postId, userId);
         }
         model.addAttribute("isScrapped", isScrapped);
-        
+
         return "main-details"; // 상세 페이지의 뷰 이름
 
     }

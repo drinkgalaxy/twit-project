@@ -284,3 +284,18 @@
 .my-scrap-description {
     margin-top: 10px;
 }
+
+.withdraw {
+    background-color: #FFFFFF;
+    color: #B4B4B4;
+    width: 82px;
+    height: 38px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #B4B4B4;
+    cursor: pointer;
+}
+
+.withdraw-text {
+    color: #B4B4B4;
+}

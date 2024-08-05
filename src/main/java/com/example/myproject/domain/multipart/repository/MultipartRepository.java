@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MultipartRepository extends JpaRepository<Multipart, Long> {
 
-    @Query("select m from Multipart m where m.originalFileName = :filename")
-    Multipart findByFilename(String filename);
+    @Query("select m from Multipart m where m.originalFileName = :filename AND m.postId = :postId")
+    Multipart findByOriginalFileNameAndPostId(String filename, Long postId);
 
 }

@@ -30,9 +30,9 @@ public class MultipartController {
     private final MultipartRepository multipartRepository;
 
     // 파일 다운로드
-    @GetMapping("/file/download/{filename}")
-    public ResponseEntity<Resource> downloadImage(@PathVariable String filename) throws MalformedURLException {
-        Multipart multipart = multipartRepository.findByFilename(filename);
+    @GetMapping("/file/download/{postId}/{filename}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable String filename, @PathVariable Long postId) throws MalformedURLException {
+        Multipart multipart = multipartRepository.findByOriginalFileNameAndPostId(filename, postId);
         String storedFilename = multipart.getStoredFileName();
         String originalFileName = multipart.getOriginalFileName();
 
@@ -40,6 +40,7 @@ public class MultipartController {
                 localFileStorageService.getFullPath(storedFilename));
 
         log.info("uploadFilename = {}", originalFileName);
+        // 헤더에 파일 링크를 넣어줘야 한다.
         String encodedUploadFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
