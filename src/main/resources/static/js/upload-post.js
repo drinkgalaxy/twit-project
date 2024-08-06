@@ -17,7 +17,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                 return response.json(); // JSON 응답을 파싱
             } else {
                 return response.text().then(errorMessage => {
-                    throw new Error(errorMessage);
+                    alert(errorMessage);
                 });
             }
         })
