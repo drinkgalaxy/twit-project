@@ -49,6 +49,7 @@ public class PostService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("not found type id"));
+        log.info("userId = "+ user.getId());
 
         log.info("글 업로드 전 포스트잇 개수 = "+ user.getAvailablePostIt());
         if (user.getAvailablePostIt() < 10) {
@@ -72,7 +73,7 @@ public class PostService {
     public Page<Post> findPosts(int page) {
         // 생성 순으로 내림차순 정렬
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+        sorts.add(Sort.Order.desc("createdDate"));
 
         Pageable pageable = PageRequest.of(page, 3);
         Page<Post> findPosts = postRepository.findAll(pageable);

@@ -3,10 +3,12 @@ package com.example.myproject.domain.post.dto;
 import com.example.myproject.domain.post.entity.Post;
 
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
+@Builder
 public class PostCreateRequest {
 
     private String title;
