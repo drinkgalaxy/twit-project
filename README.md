@@ -23,3 +23,11 @@
 | Github | Notion | 
 | :--------: | :------: |
 | <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65"> |
+
+## 기능 명세
+
+## 화면 설계
+
+## erd 설계
+
+## api 명세
