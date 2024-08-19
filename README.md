@@ -37,9 +37,7 @@
 - 신고된 포스트잇도 마찬가지로 일시적으로 use_yn을 false로 바꾸고 만약 신고가 거절되면 다시 true로 바꿔 댓글에 나타나도록 했습니다.
 
 ## api 명세
-|                             api 명세 (1)                             |                          api 명세 (2)                          |
+| api 명세 (1) | api 명세 (2) |
 |:----------------------------------------------------------------:|:---------------------------------------------------------------:|
-| <img src="https://github.com/user-attachments/assets/a5b24be9-85f8-4db1-b2f2-2407960079b0" style="width: 500px">
- | <img src="https://github.com/user-attachments/assets/2a16ec45-74d7-47ee-8d05-a16890a460f8" style="width: 500px">
- |
+| <img src="https://github.com/user-attachments/assets/a5b24be9-85f8-4db1-b2f2-2407960079b0" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/2a16ec45-74d7-47ee-8d05-a16890a460f8" style="width: 500px"> |
 
