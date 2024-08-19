@@ -28,13 +28,12 @@
 ## 기능 명세
 
 
-![image](https://github.com/user-attachments/assets/d66b0423-cda0-4c74-87b5-552e3b9f539b)
 
 ## 화면 설계
 |                             로그인 페이지                              |                          회원가입 페이지                          |
 |:----------------------------------------------------------------:|:---------------------------------------------------------------:|
-| <img src="https://github.com/user-attachments/assets/357da657-3e4d-45c9-92c4-cc52f58e3a2d" style="width: 500px">
- | <img src="https://github.com/user-attachments/assets/d66b0423-cda0-4c74-87b5-552e3b9f539b" style="width: 500px">
+| <img src="https://github.com/user-attachments/assets/357da657-3e4d-45c9-92c4-cc52f58e3a2d" style="width: 200px">
+ | <img src="https://github.com/user-attachments/assets/d66b0423-cda0-4c74-87b5-552e3b9f539b" style="width: 200px">
  |
 
 ## erd 설계
