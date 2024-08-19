@@ -28,8 +28,16 @@
 ## 기능 명세
 
 
+![image](https://github.com/user-attachments/assets/cf755e4f-2783-4f35-9352-143a1e48db54)
+
+
+
 
 ## 화면 설계
+|                             인트로 페이지 1                            |                          인트로 페이지 2                          |
+|:----------------------------------------------------------------:|:---------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/3bf3ede0-0bf2-48aa-b37d-7e62bac2dff2" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/97772413-a694-435e-b2cc-6d4bfd6a5b38" style="width: 500px"> |
+
 |                             로그인 페이지                              |                          회원가입 페이지                          |
 |:----------------------------------------------------------------:|:---------------------------------------------------------------:|
 | <img src="https://github.com/user-attachments/assets/357da657-3e4d-45c9-92c4-cc52f58e3a2d" style="width: 300px"> | <img src="https://github.com/user-attachments/assets/d66b0423-cda0-4c74-87b5-552e3b9f539b" style="width: 300px"> |
@@ -37,6 +45,18 @@
 |                             메인 페이지                              |                          글 업로드 페이지                          |
 |:----------------------------------------------------------------:|:---------------------------------------------------------------:|
 | <img src="https://github.com/user-attachments/assets/d8d439bb-894b-41ad-a874-694ee2ddb942" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/cdb9199a-1d97-4ff7-9145-e571f5963c09" style="width: 500px"> |
+
+|                             게시글 상세 페이지                             |                          댓글 작성 모달창                          |
+|:----------------------------------------------------------------:|:---------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/16ff6c3a-f5e6-429e-89da-d5e0182e6243" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/78d6f64e-87be-483f-adb7-633d78524933" style="width: 500px"> |
+
+|                             댓글 신고 모달창                            |                          관리자 신고 관리 페이지                          |
+|:----------------------------------------------------------------:|:---------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/cd252328-430e-4a19-9432-a930d3ff0181" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/b1273c1e-46b0-4f4b-9f82-97aa697dd25a" style="width: 500px"> |
+
+|                             내 정보 페이지 1                            |                          내 정보 페이지 2                          |
+|:----------------------------------------------------------------:|:---------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/88113d51-2961-49a7-9f84-d01e82e99c2b" style="width: 500px"> | <img src="https://github.com/user-attachments/assets/cf755e4f-2783-4f35-9352-143a1e48db54" style="width: 500px"> |
 
 ## erd 설계
 ![image](https://github.com/user-attachments/assets/eb5c66c4-647d-4d2b-b45a-97f4c27e8824)
